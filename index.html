@@ -1,0 +1,3706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBM AI-Enabled DSM — ACME Corporation</title>
+<style>
+  /* Self-contained font stack — no external dependencies */
+  @import url('data:text/css,');
+</style>
+<style>
+/* ===== DESIGN TOKENS ===== */
+:root {
+  --ibm-blue: #0530AD;
+  --ibm-blue-70: #0043CE;
+  --ibm-blue-10: #EDF5FF;
+  --ibm-blue-20: #D0E2FF;
+  --gray-100: #161616;
+  --gray-90: #262626;
+  --gray-80: #393939;
+  --gray-70: #525252;
+  --gray-60: #6F6F6F;
+  --gray-50: #8D8D8D;
+  --gray-30: #C6C6C6;
+  --gray-20: #E0E0E0;
+  --gray-10: #F4F4F4;
+  --white: #FFFFFF;
+  --green-50: #24A148;
+  --green-10: #DEFBE6;
+  --red-60: #DA1E28;
+  --red-10: #FFF1F1;
+  --orange-40: #FF832B;
+  --orange-10: #FFF2E8;
+  --teal-50: #009D9A;
+  --teal-10: #D9FBFB;
+  --yellow-20: #FCF4D6;
+  --yellow-40: #F1C21B;
+  --sidebar-width: 240px;
+  --topnav-height: 48px;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  color: var(--gray-100);
+  background: var(--gray-10);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== TOP NAV ===== */
+.top-nav {
+  height: var(--topnav-height);
+  background: var(--gray-100);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--gray-80);
+}
+.top-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 8px;
+}
+.top-nav-logo {
+  width: 24px;
+  height: 24px;
+  background: var(--ibm-blue);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+.top-nav-deal {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--white);
+}
+.top-nav-deal span {
+  color: var(--gray-30);
+  font-weight: 400;
+  margin-right: 4px;
+}
+.top-nav-spacer { flex: 1; }
+.scenario-select {
+  background: var(--gray-80);
+  border: 1px solid var(--gray-70);
+  color: var(--white);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  outline: none;
+}
+.scenario-select:hover { border-color: var(--gray-50); }
+.top-nav-btn {
+  background: transparent;
+  border: 1px solid var(--gray-60);
+  color: var(--white);
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.top-nav-btn:hover { background: var(--gray-80); border-color: var(--gray-30); }
+.top-nav-btn.primary {
+  background: var(--ibm-blue);
+  border-color: var(--ibm-blue);
+}
+.top-nav-btn.primary:hover { background: var(--ibm-blue-70); }
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  background: var(--ibm-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--gray-90);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sidebar-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--gray-80);
+}
+.sidebar-brand {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray-30);
+  margin-bottom: 4px;
+}
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.3;
+}
+.sidebar-subtitle {
+  font-size: 11px;
+  color: var(--gray-50);
+  margin-top: 2px;
+}
+
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gray-50);
+  padding: 14px 16px 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+  color: var(--gray-30);
+  font-size: 13.5px;
+}
+.nav-item:hover {
+  background: var(--gray-80);
+  color: var(--white);
+}
+.nav-item.active {
+  background: var(--ibm-blue);
+  border-left-color: #5B8AF5;
+  color: var(--white);
+}
+.nav-item.active .nav-step-badge {
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+.nav-icon { font-size: 15px; flex-shrink: 0; }
+.nav-label { flex: 1; line-height: 1.3; }
+.nav-label-sub {
+  font-size: 11px;
+  color: var(--gray-50);
+  display: block;
+}
+.nav-item.active .nav-label-sub { color: rgba(255,255,255,0.6); }
+.nav-step-badge {
+  background: var(--gray-80);
+  color: var(--gray-50);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+/* Progress bar */
+.sidebar-progress {
+  padding: 14px 16px;
+  border-top: 1px solid var(--gray-80);
+  margin-top: auto;
+}
+.progress-label {
+  font-size: 11px;
+  color: var(--gray-50);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-track {
+  height: 4px;
+  background: var(--gray-80);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--ibm-blue);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.sidebar-version {
+  padding: 8px 16px 14px;
+  font-size: 11px;
+  color: var(--gray-60);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 24px;
+  background: var(--gray-10);
+}
+
+/* ===== SCREENS ===== */
+.screen { display: none; max-width: 1200px; margin: 0 auto; }
+.screen.active { display: block; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== PAGE HEADER ===== */
+.page-header { margin-bottom: 24px; }
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+}
+.page-subtitle {
+  font-size: 14px;
+  color: var(--gray-70);
+}
+.page-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* ===== STAT CARDS ===== */
+.stat-cards {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+.stat-cards .stat-card {
+  flex: 1 1 0;
+  min-width: 130px;
+}
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 14px 16px;
+  border-top: 3px solid var(--gray-20);
+  min-width: 0;
+  overflow: hidden;
+}
+.stat-card.blue { border-top-color: var(--ibm-blue); }
+.stat-card.green { border-top-color: var(--green-50); }
+.stat-card.teal { border-top-color: var(--teal-50); }
+.stat-card.gray { border-top-color: var(--gray-50); }
+.stat-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--gray-70);
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--gray-100);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.stat-value.blue { color: var(--ibm-blue); }
+.stat-value.green { color: var(--green-50); }
+.stat-value.teal { color: var(--teal-50); }
+.stat-sub {
+  font-size: 12px;
+  color: var(--gray-60);
+  margin-top: 4px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.card-subtitle {
+  font-size: 12px;
+  color: var(--gray-60);
+  margin-top: 2px;
+}
+
+/* ===== TWO-COLUMN LAYOUT ===== */
+.two-col { display: grid; grid-template-columns: minmax(0,3fr) minmax(0,2fr); gap: 16px; margin-bottom: 16px; }
+.two-col-half { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+/* ===== WATERFALL CHART ===== */
+.waterfall-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 105px;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.waterfall-label {
+  font-size: 12px;
+  color: var(--gray-70);
+  text-align: right;
+  white-space: nowrap;
+}
+.waterfall-bar-wrap {
+  height: 28px;
+  background: var(--gray-10);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  min-width: 0;
+}
+.waterfall-bar {
+  height: 100%;
+  border-radius: 3px;
+  min-width: 4px;
+  transition: width 0.6s ease;
+}
+.waterfall-bar-value {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  color: white;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.waterfall-bar.light-blue ~ .waterfall-bar-value,
+.light-blue-val { color: var(--ibm-blue) !important; }
+.waterfall-bar-amount {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-70);
+  white-space: nowrap;
+  text-align: left;
+  padding-left: 4px;
+}
+.waterfall-bar.blue { background: var(--ibm-blue); }
+.waterfall-bar.light-blue { background: var(--ibm-blue-20); color: var(--ibm-blue); }
+.waterfall-bar.teal { background: var(--teal-50); }
+.waterfall-bar.green { background: var(--green-50); }
+.waterfall-pct { display: none; }
+
+/* ===== TABLES ===== */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: var(--gray-10);
+  border-bottom: 2px solid var(--gray-20);
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-70);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gray-20);
+  color: var(--gray-100);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--gray-10); }
+.data-table .total-row td {
+  font-weight: 600;
+  background: var(--gray-10);
+  border-top: 2px solid var(--gray-20);
+}
+.data-table .green { color: var(--green-50); font-weight: 600; }
+.data-table .red { color: var(--red-60); }
+.data-table .orange { color: var(--orange-40); }
+.data-table .blue { color: var(--ibm-blue); }
+.data-table .muted { color: var(--gray-60); }
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-green { background: var(--green-10); color: var(--green-50); }
+.badge-orange { background: var(--orange-10); color: var(--orange-40); }
+.badge-red { background: var(--red-10); color: var(--red-60); }
+.badge-blue { background: var(--ibm-blue-10); color: var(--ibm-blue); }
+.badge-gray { background: var(--gray-10); color: var(--gray-70); }
+.badge-teal { background: var(--teal-10); color: var(--teal-50); }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--ibm-blue);
+  color: white;
+  border-color: var(--ibm-blue);
+}
+.btn-primary:hover { background: var(--ibm-blue-70); border-color: var(--ibm-blue-70); }
+.btn-secondary {
+  background: white;
+  color: var(--ibm-blue);
+  border-color: var(--ibm-blue);
+}
+.btn-secondary:hover { background: var(--ibm-blue-10); }
+.btn-ghost {
+  background: transparent;
+  color: var(--gray-70);
+  border-color: var(--gray-20);
+}
+.btn-ghost:hover { background: var(--gray-10); color: var(--gray-100); }
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+.btn-danger { background: var(--red-60); color: white; border-color: var(--red-60); }
+.btn-override {
+  background: var(--ibm-blue-10);
+  color: var(--ibm-blue);
+  border-color: var(--ibm-blue-20);
+  padding: 3px 8px;
+  font-size: 11px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.btn-override:hover { background: var(--ibm-blue-20); }
+.restore-link {
+  color: var(--gray-60);
+  font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 4px;
+}
+.restore-link:hover { color: var(--gray-100); }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  border-bottom: 2px solid var(--gray-20);
+  margin-bottom: 20px;
+  gap: 0;
+}
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-70);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--gray-100); background: var(--gray-10); }
+.tab.active {
+  color: var(--ibm-blue);
+  border-bottom-color: var(--ibm-blue);
+  font-weight: 600;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ===== DEAL INFO GRID ===== */
+.deal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.deal-info-item { }
+.deal-info-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-60);
+  margin-bottom: 4px;
+}
+.deal-info-value {
+  font-size: 14px;
+  color: var(--gray-100);
+  font-weight: 500;
+}
+
+/* ===== DROP ZONE ===== */
+.drop-zone {
+  border: 2px dashed var(--ibm-blue);
+  border-radius: 8px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--white);
+  margin-bottom: 16px;
+}
+.drop-zone:hover { background: var(--ibm-blue-10); }
+.drop-zone-icon { font-size: 32px; margin-bottom: 12px; }
+.drop-zone-title { font-size: 16px; font-weight: 600; color: var(--gray-100); margin-bottom: 6px; }
+.drop-zone-sub { font-size: 13px; color: var(--gray-60); }
+.drop-zone-link { color: var(--ibm-blue); text-decoration: underline; cursor: pointer; }
+
+.supported-cols {
+  background: var(--gray-10);
+  border: 1px solid var(--gray-20);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--gray-70);
+  margin-bottom: 20px;
+}
+.supported-cols span { color: var(--ibm-blue); font-weight: 500; }
+
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+.file-icon { font-size: 22px; }
+.file-details { flex: 1; }
+.file-name { font-size: 14px; font-weight: 500; color: var(--gray-100); }
+.file-meta { font-size: 12px; color: var(--gray-60); margin-top: 2px; }
+.file-status { }
+
+/* ===== CLASSIFICATION SUMMARY BAR ===== */
+.classify-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 12px 18px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.classify-stat {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.classify-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== ADDRESSABILITY QUADRANT ===== */
+.quad-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.quad-card {
+  border-radius: 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--gray-20);
+}
+.quad-card.blue-bg { background: var(--ibm-blue-10); border-color: var(--ibm-blue-20); }
+.quad-card.gray-bg { background: var(--gray-10); }
+.quad-card.green-bg { background: var(--green-10); border-color: #B3E6C0; }
+.quad-card.orange-bg { background: var(--orange-10); border-color: #FFC9A3; }
+.quad-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-70); margin-bottom: 6px; }
+.quad-value { font-size: 26px; font-weight: 700; color: var(--gray-100); }
+.quad-pct { font-size: 13px; color: var(--gray-60); margin-top: 2px; }
+
+/* ===== SPEND TYPE BAR ===== */
+.spend-type-bar {
+  display: flex;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.spend-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s;
+}
+.spend-labels {
+  display: flex;
+  gap: 0;
+}
+.spend-label-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--gray-70);
+  margin-right: 20px;
+}
+.spend-label-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ===== WAVE PLANNER ===== */
+.wave-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.wave-card {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 16px;
+  border-left: 4px solid var(--gray-20);
+}
+.wave-card.wave1 { border-left-color: var(--ibm-blue); }
+.wave-card.wave2 { border-left-color: var(--teal-50); }
+.wave-card.wave3 { border-left-color: var(--orange-40); }
+.wave-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.wave-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-100);
+}
+.wave-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.wave-stat-label { font-size: 11px; color: var(--gray-60); margin-bottom: 2px; }
+.wave-stat-value { font-size: 14px; font-weight: 600; color: var(--gray-100); }
+.wave-edit-form {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-20);
+}
+.wave-edit-form.show { display: block; }
+.wave-edit-form label { font-size: 12px; color: var(--gray-70); display: block; margin-bottom: 4px; }
+.wave-edit-form input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--ibm-blue);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: var(--gray-100);
+  margin-bottom: 8px;
+  outline: none;
+}
+
+/* ===== GANTT ===== */
+.gantt-wrapper {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.gantt-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-20);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+.gantt-body {
+  padding: 16px;
+  overflow-x: auto;
+}
+.gantt-timeline {
+  display: flex;
+  margin-bottom: 4px;
+  margin-left: 150px;
+}
+.gantt-month {
+  flex: 0 0 calc(100% / 36);
+  font-size: 9px;
+  color: var(--gray-60);
+  text-align: center;
+  position: relative;
+}
+.gantt-month.quarter::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: var(--gray-30);
+}
+.gantt-quarter-label {
+  display: flex;
+  margin-bottom: 8px;
+  margin-left: 150px;
+}
+.gantt-quarter {
+  flex: 0 0 calc(100% / 12);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gray-70);
+  text-align: center;
+  border-left: 1px solid var(--gray-20);
+  padding: 4px 0;
+  background: var(--gray-10);
+}
+.gantt-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  min-height: 30px;
+}
+.gantt-row-label {
+  width: 150px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--gray-70);
+  font-weight: 500;
+  padding-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gantt-track {
+  flex: 1;
+  height: 26px;
+  background: var(--gray-10);
+  border-radius: 3px;
+  position: relative;
+}
+.gantt-bar {
+  position: absolute;
+  height: 100%;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gantt-bar.wave1 { background: var(--ibm-blue); }
+.gantt-bar.wave2 { background: var(--teal-50); }
+.gantt-bar.wave3 { background: var(--orange-40); }
+
+/* ===== SCENARIO TABS ===== */
+.scenario-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  overflow: hidden;
+  display: inline-flex;
+}
+.scenario-tab {
+  padding: 10px 24px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-70);
+  background: var(--white);
+  border-right: 1px solid var(--gray-20);
+  transition: all 0.15s;
+}
+.scenario-tab:last-child { border-right: none; }
+.scenario-tab:hover { background: var(--gray-10); color: var(--gray-100); }
+.scenario-tab.active {
+  background: var(--ibm-blue);
+  color: white;
+  font-weight: 600;
+}
+
+/* ===== BAR CHART ===== */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  height: 200px;
+  padding: 16px 16px 0;
+  margin-bottom: 4px;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+}
+.bar-amount {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.bar-stacked {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+.bar-seg-blue { background: var(--ibm-blue); }
+.bar-seg-teal { background: var(--teal-50); }
+.bar-label {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--gray-70);
+  text-align: center;
+}
+.bar-chart-labels {
+  display: flex;
+  gap: 12px;
+  padding: 0 16px 16px;
+  justify-content: center;
+}
+.bar-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--gray-70);
+}
+.bar-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+/* ===== HORIZONTAL BAR CHART ===== */
+.h-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.h-bar-label {
+  width: 180px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--gray-70);
+  text-align: right;
+}
+.h-bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--gray-10);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.h-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+  transition: width 0.5s ease;
+}
+.h-bar-value {
+  width: 60px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-100);
+}
+
+/* ===== COLLAPSIBLE ===== */
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 14px 20px;
+  background: var(--gray-10);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  margin-bottom: 0;
+  user-select: none;
+}
+.collapsible-header.open {
+  border-radius: 6px 6px 0 0;
+  border-bottom: none;
+}
+.collapsible-header:hover { background: var(--gray-20); }
+.collapsible-toggle { font-size: 16px; color: var(--gray-60); transition: transform 0.2s; }
+.collapsible-toggle.open { transform: rotate(180deg); }
+.collapsible-body {
+  display: none;
+  padding: 16px 20px;
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+.collapsible-body.open { display: block; }
+.formula-block {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--gray-100);
+  background: var(--gray-10);
+  border: 1px solid var(--gray-20);
+  border-radius: 4px;
+  padding: 16px;
+}
+.formula-arrow { color: var(--ibm-blue); font-weight: 700; }
+.formula-highlight { color: var(--green-50); font-weight: 700; }
+.formula-note { color: var(--gray-60); font-size: 12px; }
+
+/* ===== RISK TABLE ===== */
+.risk-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-20);
+}
+.risk-row:last-child { border-bottom: none; }
+.risk-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.risk-text { flex: 1; font-size: 13px; color: var(--gray-100); line-height: 1.5; }
+.risk-sev {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.risk-sev-warn { background: var(--orange-10); color: var(--orange-40); }
+.risk-sev-info { background: var(--ibm-blue-10); color: var(--ibm-blue); }
+
+/* ===== KPI TILES (Exec) ===== */
+.kpi-tiles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.kpi-tile {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  padding: 16px;
+  text-align: center;
+}
+.kpi-tile-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-60); margin-bottom: 8px; }
+.kpi-tile-value { font-size: 24px; font-weight: 700; color: var(--gray-100); }
+.kpi-tile-value.green { color: var(--green-50); }
+.kpi-tile-value.teal { color: var(--teal-50); }
+.kpi-tile-value.blue { color: var(--ibm-blue); }
+
+/* ===== ASSUMPTIONS LIST ===== */
+.assumptions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.assumption-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-20);
+  font-size: 13px;
+}
+.assumption-row:last-child { border-bottom: none; }
+.assumption-name { color: var(--gray-70); }
+.assumption-value { font-weight: 600; color: var(--gray-100); }
+
+/* ===== AI CHAT ===== */
+.chat-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  height: calc(100vh - var(--topnav-height) - 48px - 48px);
+  min-height: 500px;
+}
+.chat-panel {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-panel-header {
+  padding: 14px 16px;
+  background: var(--ibm-blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.chat-ai-avatar {
+  width: 28px;
+  height: 28px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+.chat-panel-title { font-size: 14px; font-weight: 600; }
+.chat-panel-subtitle { font-size: 11px; opacity: 0.8; }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+}
+.chat-msg.user { align-self: flex-end; align-items: flex-end; }
+.chat-msg.ai { align-self: flex-start; align-items: flex-start; }
+.chat-bubble {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.chat-msg.user .chat-bubble {
+  background: var(--ibm-blue);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.ai .chat-bubble {
+  background: var(--gray-10);
+  color: var(--gray-100);
+  border-bottom-left-radius: 4px;
+}
+.chat-time { font-size: 10px; color: var(--gray-50); margin-top: 3px; }
+.chat-chips {
+  padding: 8px 16px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--gray-20);
+  background: var(--gray-10);
+}
+.chat-chip {
+  padding: 5px 10px;
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 16px;
+  font-size: 11px;
+  color: var(--ibm-blue);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.chat-chip:hover { background: var(--ibm-blue-10); border-color: var(--ibm-blue); }
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--gray-20);
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  resize: none;
+  color: var(--gray-100);
+}
+.chat-input:focus { border-color: var(--ibm-blue); }
+.chat-send-btn {
+  background: var(--ibm-blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.chat-send-btn:hover { background: var(--ibm-blue-70); }
+
+.chat-context-panel {
+  background: var(--white);
+  border: 1px solid var(--gray-20);
+  border-radius: 6px;
+  overflow-y: auto;
+}
+.chat-context-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-20);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-100);
+  background: var(--gray-10);
+}
+.chat-context-body { padding: 16px; }
+.context-section { margin-bottom: 20px; }
+.context-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-60);
+  margin-bottom: 10px;
+}
+
+/* ===== OVERRIDE CELLS ===== */
+.editable-cell {
+  background: var(--yellow-20) !important;
+  border-radius: 3px;
+  padding: 3px 6px;
+  outline: 1px solid var(--yellow-40);
+  cursor: text;
+  min-width: 50px;
+  display: inline-block;
+}
+
+/* ===== INLINE INPUTS ===== */
+.wave-dropdown {
+  padding: 4px 8px;
+  border: 1px solid var(--gray-20);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  color: var(--gray-100);
+  background: white;
+  cursor: pointer;
+  outline: none;
+}
+.wave-dropdown:focus { border-color: var(--ibm-blue); }
+
+/* ===== SEARCH INPUT ===== */
+.search-wrap {
+  position: relative;
+  margin-bottom: 12px;
+}
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid var(--gray-20);
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: var(--gray-100);
+  outline: none;
+  background: white;
+}
+.search-input:focus { border-color: var(--ibm-blue); }
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-50);
+  font-size: 14px;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+  height: 1px;
+  background: var(--gray-20);
+  margin: 20px 0;
+}
+.section-header {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--gray-100);
+  margin-bottom: 4px;
+  margin-top: 24px;
+}
+.section-sub { font-size: 13px; color: var(--gray-70); margin-bottom: 16px; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-30); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gray-50); }
+
+/* ===== UTILITY ===== */
+.text-right { text-align: right; }
+.text-center { text-align: center; }
+.mono { font-family: 'Courier New', Courier, monospace; font-size: 12px; }
+.fw-600 { font-weight: 600; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mb-16 { margin-bottom: 16px; }
+.flex-row { display: flex; align-items: center; gap: 8px; }
+.flex-spacer { flex: 1; }
+.loading-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--gray-50);
+  border-radius: 50%;
+  margin: 0 2px;
+  animation: pulse 1s infinite;
+}
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%,100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+
+/* Tag for overridden row */
+.override-tag {
+  display: inline-block;
+  background: var(--orange-10);
+  color: var(--orange-40);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  border: 1px solid #FFC9A3;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="top-nav-brand">
+    <div class="top-nav-logo">IBM</div>
+    <span style="color:var(--gray-30);font-size:12px;font-weight:400;">IBM Consulting</span>
+  </div>
+  <div style="width:1px;height:20px;background:var(--gray-70);margin:0 4px;"></div>
+  <div class="top-nav-deal">
+    <span>DSM:</span>ACME Corporation
+  </div>
+  <div class="top-nav-spacer"></div>
+  <select class="scenario-select" id="globalScenarioSelect" onchange="globalScenarioChange(this.value)">
+    <option value="typical">Typical Scenario ▾</option>
+    <option value="conservative">Conservative Scenario ▾</option>
+    <option value="aggressive">Aggressive Scenario ▾</option>
+  </select>
+  <button class="top-nav-btn">Save</button>
+  <button class="top-nav-btn primary">Export</button>
+  <div class="user-avatar" title="Solution Architect">SA</div>
+</nav>
+
+<!-- APP BODY -->
+<div class="app-body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">IBM Consulting</div>
+      <div class="sidebar-title">AI-Enabled DSM</div>
+      <div class="sidebar-subtitle">Detailed Savings Model v2.0</div>
+    </div>
+
+    <div class="sidebar-section-label">Workflow</div>
+
+    <a class="nav-item active" data-screen="screen1" onclick="showScreen('screen1', this)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">
+        Deal Dashboard
+        <span class="nav-label-sub">Overview &amp; summary</span>
+      </span>
+      <span class="nav-step-badge">1</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen2" onclick="showScreen('screen2', this)">
+      <span class="nav-icon">📁</span>
+      <span class="nav-label">
+        Spend Upload
+        <span class="nav-label-sub">Classification &amp; taxonomy</span>
+      </span>
+      <span class="nav-step-badge">2</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen3" onclick="showScreen('screen3', this)">
+      <span class="nav-icon">💰</span>
+      <span class="nav-label">
+        Addressable Spend
+        <span class="nav-label-sub">Scope &amp; segmentation</span>
+      </span>
+      <span class="nav-step-badge">3</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen4" onclick="showScreen('screen4', this)">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">
+        Savings Assumptions
+        <span class="nav-label-sub">GCL benchmarks &amp; overrides</span>
+      </span>
+      <span class="nav-step-badge">4</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen5" onclick="showScreen('screen5', this)">
+      <span class="nav-icon">📅</span>
+      <span class="nav-label">
+        Wave Planning
+        <span class="nav-label-sub">Implementation timeline</span>
+      </span>
+      <span class="nav-step-badge">5</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen6" onclick="showScreen('screen6', this)">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">
+        Model Results
+        <span class="nav-label-sub">Scenarios &amp; projections</span>
+      </span>
+      <span class="nav-step-badge">6</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen7" onclick="showScreen('screen7', this)">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">
+        Executive Dashboard
+        <span class="nav-label-sub">Client-ready summary</span>
+      </span>
+      <span class="nav-step-badge">7</span>
+    </a>
+
+    <a class="nav-item" data-screen="screen8" onclick="showScreen('screen8', this)">
+      <span class="nav-icon">🤖</span>
+      <span class="nav-label">
+        AI Assistant
+        <span class="nav-label-sub">Ask &amp; explain</span>
+      </span>
+      <span class="nav-step-badge">8</span>
+    </a>
+
+    <div style="flex:1;"></div>
+
+    <div class="sidebar-progress">
+      <div class="progress-label">
+        <span>Model Progress</span>
+        <span id="progressPct">Step 1 of 8</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill" style="width:12.5%;"></div>
+      </div>
+    </div>
+    <div class="sidebar-version">v2.0 — Oct 2026 · ACME_Corp_DSM</div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ===================== SCREEN 1: DEAL DASHBOARD ===================== -->
+    <div class="screen active" id="screen1">
+      <div class="page-header">
+        <div class="flex-row">
+          <div>
+            <div class="page-title">Deal Dashboard</div>
+            <div class="page-subtitle">ACME Corporation · Procurement Transformation · North America</div>
+          </div>
+          <div class="flex-spacer"></div>
+          <div class="flex-row">
+            <span class="badge badge-green">● Model Complete</span>
+            <span class="badge badge-blue">Typical Scenario</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STAT CARDS (2x2 grid — robust at any width) -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div class="stat-card blue" style="border-top:3px solid var(--ibm-blue);">
+          <div class="stat-label">Total In-Scope Spend</div>
+          <div class="stat-value blue">$262M</div>
+          <div class="stat-sub">Baseline spend across all categories</div>
+        </div>
+        <div class="stat-card green" style="border-top:3px solid var(--green-50);">
+          <div class="stat-label">Total Projected Savings</div>
+          <div class="stat-value green">$34.2M</div>
+          <div class="stat-sub">Over 36-month contract term</div>
+        </div>
+        <div class="stat-card teal" style="border-top:3px solid var(--teal-50);">
+          <div class="stat-label">Savings as % of Spend</div>
+          <div class="stat-value teal">13.1%</div>
+          <div class="stat-sub">Blended rate, all categories</div>
+        </div>
+        <div class="stat-card gray" style="border-top:3px solid var(--gray-30);">
+          <div class="stat-label">Contract Term</div>
+          <div class="stat-value">36 months</div>
+          <div class="stat-sub">Jan 2025 — Dec 2027</div>
+        </div>
+      </div>
+
+      <!-- TWO-COLUMN: WATERFALL + YEAR TABLE -->
+      <div class="two-col">
+
+        <!-- WATERFALL CHART -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Savings Waterfall</div>
+              <div class="card-subtitle">From total spend to projected savings</div>
+            </div>
+          </div>
+          <div style="padding:8px 0;">
+            <!-- SVG waterfall: viewBox 320×160, labels left-aligned, values inside bars -->
+            <svg width="100%" height="160" viewBox="0 0 320 160" style="display:block;overflow:visible;">
+              <!-- row labels (right-aligned into col 0–88) -->
+              <text x="86" y="26"  text-anchor="end" font-size="11" fill="#525252" font-family="IBM Plex Sans,sans-serif">Total Spend</text>
+              <text x="86" y="62"  text-anchor="end" font-size="11" fill="#525252" font-family="IBM Plex Sans,sans-serif">Addressable</text>
+              <text x="86" y="98"  text-anchor="end" font-size="11" fill="#525252" font-family="IBM Plex Sans,sans-serif">SS Addressable</text>
+              <text x="86" y="134" text-anchor="end" font-size="11" fill="#24a148" font-weight="bold" font-family="IBM Plex Sans,sans-serif">Proj. Savings</text>
+              <!-- background tracks (col 90–310 = 220px) -->
+              <rect x="90" y="8"   width="220" height="26" rx="3" fill="#e0e0e0"/>
+              <rect x="90" y="44"  width="220" height="26" rx="3" fill="#e0e0e0"/>
+              <rect x="90" y="80"  width="220" height="26" rx="3" fill="#e0e0e0"/>
+              <rect x="90" y="116" width="220" height="26" rx="3" fill="#e0e0e0"/>
+              <!-- filled bars: 100%=220, 80%=176, 63%=139, 13%=29 -->
+              <rect x="90" y="8"   width="220" height="26" rx="3" fill="#0f62fe"/>
+              <rect x="90" y="44"  width="176" height="26" rx="3" fill="#d0e2ff"/>
+              <rect x="90" y="80"  width="139" height="26" rx="3" fill="#009d9a"/>
+              <rect x="90" y="116" width="29"  height="26" rx="3" fill="#24a148"/>
+              <!-- value labels inside bars -->
+              <text x="205" y="26"  text-anchor="middle" font-size="10" fill="white"      font-weight="bold" font-family="IBM Plex Sans,sans-serif">$262M · 100%</text>
+              <text x="178" y="62"  text-anchor="middle" font-size="10" fill="#0043ce"    font-weight="bold" font-family="IBM Plex Sans,sans-serif">$209.6M · 80%</text>
+              <text x="160" y="98"  text-anchor="middle" font-size="10" fill="white"      font-weight="bold" font-family="IBM Plex Sans,sans-serif">$163.9M · 63%</text>
+              <text x="122" y="130" text-anchor="middle" font-size="10" fill="#161616"    font-weight="bold" font-family="IBM Plex Sans,sans-serif">$34.2M · 13%</text>
+            </svg>
+          </div>
+          <div style="padding:12px 0 0;border-top:1px solid var(--gray-20);margin-top:8px;">
+            <div class="flex-row" style="gap:20px;flex-wrap:wrap;">
+              <div class="flex-row"><div style="width:12px;height:12px;background:var(--ibm-blue);border-radius:2px;"></div><span style="font-size:12px;color:var(--gray-60);">Total Spend</span></div>
+              <div class="flex-row"><div style="width:12px;height:12px;background:var(--ibm-blue-20);border-radius:2px;"></div><span style="font-size:12px;color:var(--gray-60);">Addressable</span></div>
+              <div class="flex-row"><div style="width:12px;height:12px;background:var(--teal-50);border-radius:2px;"></div><span style="font-size:12px;color:var(--gray-60);">SS Addressable</span></div>
+              <div class="flex-row"><div style="width:12px;height:12px;background:var(--green-50);border-radius:2px;"></div><span style="font-size:12px;color:var(--gray-60);">Savings</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- YEAR-BY-YEAR TABLE -->
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Year-by-Year Savings</div>
+              <div class="card-subtitle">Annual and cumulative projections</div>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th class="text-right">Annual Savings</th>
+                <th class="text-right">Cumulative</th>
+                <th class="text-right">% of Spend</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Year 1</strong><span style="font-size:11px;color:var(--gray-60);display:block;">Jan–Dec 2025</span></td>
+                <td class="text-right green">$6.8M</td>
+                <td class="text-right">$6.8M</td>
+                <td class="text-right">2.6%</td>
+              </tr>
+              <tr>
+                <td><strong>Year 2</strong><span style="font-size:11px;color:var(--gray-60);display:block;">Jan–Dec 2026</span></td>
+                <td class="text-right green">$12.4M</td>
+                <td class="text-right">$19.2M</td>
+                <td class="text-right">4.7%</td>
+              </tr>
+              <tr>
+                <td><strong>Year 3</strong><span style="font-size:11px;color:var(--gray-60);display:block;">Jan–Dec 2027</span></td>
+                <td class="text-right green">$15.1M</td>
+                <td class="text-right">$34.3M</td>
+                <td class="text-right">5.8%</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td>Total (36 mo)</td>
+                <td class="text-right green">$34.2M</td>
+                <td class="text-right">—</td>
+                <td class="text-right green">13.1%</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div style="margin-top:14px;padding:10px;background:var(--green-10);border-radius:4px;border:1px solid #B3E6C0;">
+            <div style="font-size:12px;color:var(--green-50);font-weight:600;">📈 Savings ramp profile: Back-loaded</div>
+            <div style="font-size:12px;color:var(--gray-70);margin-top:2px;">Y3 savings are 2.2× higher than Y1 as later waves come fully online.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEAL INFO CARD -->
+      <div class="card mt-16">
+        <div class="card-header">
+          <div class="card-title">Deal Information</div>
+          <span class="badge badge-blue">Active Model</span>
+        </div>
+        <div class="deal-info-grid">
+          <div class="deal-info-item">
+            <div class="deal-info-label">Client Name</div>
+            <div class="deal-info-value">ACME Corporation</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Industry</div>
+            <div class="deal-info-value">Industrial Manufacturing</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Geography</div>
+            <div class="deal-info-value">North America (Primary)</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Contract Start</div>
+            <div class="deal-info-value">January 1, 2025</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Contract Duration</div>
+            <div class="deal-info-value">36 months</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Model Version</div>
+            <div class="deal-info-value">v2.0 (Typical Scenario)</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Spend Data Vintage</div>
+            <div class="deal-info-value">FY2024 Actuals</div>
+          </div>
+          <div class="deal-info-item">
+            <div class="deal-info-label">Last Modified</div>
+            <div class="deal-info-value">Oct 12, 2026 — 09:42 AM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 1 -->
+
+    <!-- ===================== SCREEN 2: SPEND UPLOAD ===================== -->
+    <div class="screen" id="screen2">
+      <div class="page-header">
+        <div class="page-title">Spend Upload &amp; Classification</div>
+        <div class="page-subtitle">Upload client spend data and validate AI-generated taxonomy classifications</div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this, 'uploadTab')">📤 Upload File</div>
+        <div class="tab" onclick="switchTab(this, 'classifyTab')">🔍 Review Classifications</div>
+      </div>
+
+      <!-- UPLOAD TAB -->
+      <div class="tab-content active" id="uploadTab">
+        <div class="drop-zone" onclick="simulateUpload()">
+          <div class="drop-zone-icon">📂</div>
+          <div class="drop-zone-title">Drag &amp; drop your spend file or <span class="drop-zone-link">click to browse</span></div>
+          <div class="drop-zone-sub" style="margin-top:8px;">Supported formats: Excel (.xlsx, .xls) or CSV (.csv) · Maximum file size: 50MB</div>
+        </div>
+
+        <div class="supported-cols">
+          <strong>Required columns:</strong>
+          <span>Category L1</span>, <span>Category L2</span>, <span>Category L3</span>, <span>Supplier Name</span>, <span>Spend Amount (USD)</span>, <span>Country</span>, <span>Business Unit</span>
+          &nbsp;·&nbsp; <a href="#" style="color:var(--ibm-blue);font-size:12px;" onclick="return false;">Download Template</a>
+        </div>
+
+        <div style="margin-bottom:8px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--gray-60);">Recently Uploaded</div>
+        <div class="file-item">
+          <div class="file-icon">📊</div>
+          <div class="file-details">
+            <div class="file-name">ACME_Corp_Spend_2025.xlsx</div>
+            <div class="file-meta">247 rows · 8 columns · 1.2 MB · Uploaded Oct 12, 2026 at 08:15 AM by S. Architect</div>
+          </div>
+          <div class="file-status">
+            <span class="badge badge-green">✓ Classified</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" style="margin-left:8px;">View</button>
+          <button class="btn btn-secondary btn-sm">Re-classify</button>
+        </div>
+
+        <div class="file-item" style="border-color:var(--orange-40);background:var(--orange-10);">
+          <div class="file-icon">⚠️</div>
+          <div class="file-details">
+            <div class="file-name">ACME_Corp_Spend_Q3_Addendum.csv</div>
+            <div class="file-meta">34 rows · Uploaded Oct 11, 2026 at 03:48 PM · Awaiting review</div>
+          </div>
+          <div class="file-status">
+            <span class="badge badge-orange">⚠ Pending Review</span>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-left:8px;">Review Now</button>
+        </div>
+
+        <div style="margin-top:20px;padding:14px 16px;background:var(--ibm-blue-10);border:1px solid var(--ibm-blue-20);border-radius:6px;">
+          <div class="flex-row">
+            <span style="font-size:18px;">🤖</span>
+            <div>
+              <div style="font-size:13px;font-weight:600;color:var(--ibm-blue);">AI Classification Engine Active</div>
+              <div style="font-size:12px;color:var(--gray-70);margin-top:2px;">Powered by IBM Watsonx · GCL Taxonomy v4.2 · 98.2% precision on UNSPSC-to-GCL mapping</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEW CLASSIFICATIONS TAB -->
+      <div class="tab-content" id="classifyTab">
+        <div class="classify-summary">
+          <div class="classify-stat">
+            <div class="classify-dot" style="background:var(--green-50);"></div>
+            <span><strong>234 rows</strong> classified automatically</span>
+          </div>
+          <div style="width:1px;height:20px;background:var(--gray-20);"></div>
+          <div class="classify-stat">
+            <div class="classify-dot" style="background:var(--orange-40);"></div>
+            <span><strong>11 rows</strong> flagged for review</span>
+          </div>
+          <div style="width:1px;height:20px;background:var(--gray-20);"></div>
+          <div class="classify-stat">
+            <div class="classify-dot" style="background:var(--red-60);"></div>
+            <span><strong>2 rows</strong> require manual mapping</span>
+          </div>
+          <div class="flex-spacer"></div>
+          <button class="btn btn-primary btn-sm">✓ Accept All High Confidence</button>
+          <button class="btn btn-secondary btn-sm">⬇ Export Classification Map</button>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Client Description</th>
+                <th>Detected Level</th>
+                <th>IBM L1 Category</th>
+                <th>IBM L2 Category</th>
+                <th>IBM L3 Commodity</th>
+                <th>Confidence</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>IT Equipment &amp; Accessories</strong></td>
+                <td><span class="badge badge-blue">L1</span></td>
+                <td>Information Technology</td>
+                <td>IT Hardware</td>
+                <td>Computers</td>
+                <td><span class="badge badge-green">94% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Desktop Computers</strong></td>
+                <td><span class="badge badge-blue">L2</span></td>
+                <td>Information Technology</td>
+                <td>IT Hardware</td>
+                <td>Computers</td>
+                <td><span class="badge badge-green">99% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Mobile Phone Services</strong></td>
+                <td><span class="badge badge-blue">L2</span></td>
+                <td>Information Technology</td>
+                <td>IT Telecommunications</td>
+                <td>Mobile Services</td>
+                <td><span class="badge badge-green">97% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Office Cleaning</strong></td>
+                <td><span class="badge badge-blue">L3</span></td>
+                <td>Facilities Management</td>
+                <td>Facilities Services</td>
+                <td>Cleaning &amp; Janitorial</td>
+                <td><span class="badge badge-green">91% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Freight &amp; Logistics</strong></td>
+                <td><span class="badge badge-blue">L1</span></td>
+                <td>Logistics</td>
+                <td>Distribution</td>
+                <td>3PL Services</td>
+                <td><span class="badge badge-orange">76% ⚠</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Professional Services</strong></td>
+                <td><span class="badge badge-blue">L1</span></td>
+                <td>Corporate and Prof Svcs</td>
+                <td>CPS Consulting</td>
+                <td>Management Consulting</td>
+                <td><span class="badge badge-orange">68% ⚠</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Energy &amp; Utilities</strong></td>
+                <td><span class="badge badge-blue">L1</span></td>
+                <td>Facilities Maint. &amp; Ops</td>
+                <td>Utilities</td>
+                <td>Energy Supply</td>
+                <td><span class="badge badge-green">88% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Travel &amp; Expenses</strong></td>
+                <td><span class="badge badge-blue">L1</span></td>
+                <td>Travel</td>
+                <td>Air Travel</td>
+                <td>Air Travel</td>
+                <td><span class="badge badge-orange">71% ⚠</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr>
+                <td><strong>Marketing Agency</strong></td>
+                <td><span class="badge badge-blue">L2</span></td>
+                <td>Marketing and Comms</td>
+                <td>Advertising &amp; Creative</td>
+                <td>Advertising Agency Fee</td>
+                <td><span class="badge badge-green">85% ✓</span></td>
+                <td><button class="btn-override">Review</button></td>
+              </tr>
+              <tr style="background:var(--red-10);">
+                <td><strong>Unknown Vendor Spend</strong></td>
+                <td><span class="badge badge-gray">—</span></td>
+                <td><span style="color:var(--gray-50);">—</span></td>
+                <td><span style="color:var(--gray-50);">—</span></td>
+                <td><span style="color:var(--gray-50);">—</span></td>
+                <td><span class="badge badge-red">12% ✗</span></td>
+                <td><button class="btn btn-sm btn-danger" style="font-size:11px;padding:3px 8px;">Map Manually</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 2 -->
+
+    <!-- ===================== SCREEN 3: ADDRESSABLE SPEND ===================== -->
+    <div class="screen" id="screen3">
+      <div class="page-header">
+        <div class="page-title">Step 3: Define Addressable Spend</div>
+        <div class="page-subtitle">Total uploaded spend: <strong>$262,000,000</strong> · FY2024 Actuals · 8 L1 categories</div>
+      </div>
+
+      <!-- SECTION A -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Section A — Spend Scope Classification</div>
+            <div class="card-subtitle">How spend has been categorized by scope and addressability</div>
+          </div>
+        </div>
+        <div class="quad-grid">
+          <div class="quad-card blue-bg">
+            <div class="quad-title">In-Scope Spend</div>
+            <div class="quad-value">$262.0M</div>
+            <div class="quad-pct">100% of total spend</div>
+          </div>
+          <div class="quad-card gray-bg">
+            <div class="quad-title">Out-of-Scope Spend</div>
+            <div class="quad-value">$0</div>
+            <div class="quad-pct">0% — all spend included in model</div>
+          </div>
+          <div class="quad-card green-bg">
+            <div class="quad-title">Addressable Spend</div>
+            <div class="quad-value">$209.6M</div>
+            <div class="quad-pct">80.0% of in-scope spend</div>
+          </div>
+          <div class="quad-card orange-bg">
+            <div class="quad-title">Non-Addressable Spend</div>
+            <div class="quad-value">$52.4M</div>
+            <div class="quad-pct">20.0% — regulatory, fixed commitments</div>
+          </div>
+        </div>
+
+        <!-- CATEGORY TABLE -->
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>L1 Category</th>
+                <th class="text-right">Total Spend</th>
+                <th class="text-right">Addr %</th>
+                <th class="text-right">Addressable Spend</th>
+                <th class="text-right">Strategic Sourcing</th>
+                <th class="text-right">Tactical</th>
+                <th class="text-center">In Scope</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Information Technology</strong></td>
+                <td class="text-right">$78.6M</td>
+                <td class="text-right">82%</td>
+                <td class="text-right blue">$64.5M</td>
+                <td class="text-right">$51.6M</td>
+                <td class="text-right muted">$12.9M</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Fleet</strong></td>
+                <td class="text-right">$45.2M</td>
+                <td class="text-right">75%</td>
+                <td class="text-right blue">$33.9M</td>
+                <td class="text-right">$33.9M</td>
+                <td class="text-right muted">$0</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>MRO</strong></td>
+                <td class="text-right">$38.4M</td>
+                <td class="text-right">88%</td>
+                <td class="text-right blue">$33.8M</td>
+                <td class="text-right">$20.3M</td>
+                <td class="text-right muted">$13.5M</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Facilities Management</strong></td>
+                <td class="text-right">$29.8M</td>
+                <td class="text-right">72%</td>
+                <td class="text-right blue">$21.5M</td>
+                <td class="text-right">$21.5M</td>
+                <td class="text-right muted">$0</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Corporate and Prof Svcs</strong></td>
+                <td class="text-right">$24.6M</td>
+                <td class="text-right">65%</td>
+                <td class="text-right blue">$16.0M</td>
+                <td class="text-right">$8.0M</td>
+                <td class="text-right muted">$8.0M</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Marketing and Communications</strong></td>
+                <td class="text-right">$18.4M</td>
+                <td class="text-right">78%</td>
+                <td class="text-right blue">$14.4M</td>
+                <td class="text-right">$10.1M</td>
+                <td class="text-right muted">$4.3M</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Logistics</strong></td>
+                <td class="text-right">$15.2M</td>
+                <td class="text-right">84%</td>
+                <td class="text-right blue">$12.8M</td>
+                <td class="text-right">$12.8M</td>
+                <td class="text-right muted">$0</td>
+                <td class="text-center green">✓</td>
+              </tr>
+              <tr>
+                <td><strong>Other</strong></td>
+                <td class="text-right">$12.8M</td>
+                <td class="text-right">70%</td>
+                <td class="text-right blue">$8.96M</td>
+                <td class="text-right">$6.5M</td>
+                <td class="text-right muted">$2.5M</td>
+                <td class="text-center green">✓</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td><strong>Total</strong></td>
+                <td class="text-right"><strong>$262.0M</strong></td>
+                <td class="text-right"><strong>80%</strong></td>
+                <td class="text-right blue"><strong>$209.6M</strong></td>
+                <td class="text-right"><strong>$164.7M</strong></td>
+                <td class="text-right"><strong>$41.2M</strong></td>
+                <td class="text-center">—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION B: Spend Type Toggle -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Section B — Spend Type Breakdown</div>
+            <div class="card-subtitle">Addressable spend segmented by sourcing type across all categories</div>
+          </div>
+        </div>
+        <div class="spend-type-bar">
+          <div class="spend-segment" style="width:78.5%;background:var(--ibm-blue);">Strategic $163.9M</div>
+          <div class="spend-segment" style="width:19.7%;background:var(--teal-50);">Tactical $41.2M</div>
+          <div class="spend-segment" style="width:1.8%;background:var(--gray-50);font-size:10px;">Tail</div>
+        </div>
+        <div style="display:flex;gap:0;margin-bottom:16px;">
+          <div style="width:78.5%;text-align:center;font-size:11px;color:var(--gray-60);padding-top:4px;">Strategic (78.2%)</div>
+          <div style="width:19.7%;text-align:center;font-size:11px;color:var(--gray-60);padding-top:4px;">Tactical (19.7%)</div>
+          <div style="width:1.8%;text-align:center;font-size:11px;color:var(--gray-60);padding-top:4px;">Tail</div>
+        </div>
+        <div class="spend-labels">
+          <div class="spend-label-item"><div class="spend-label-dot" style="background:var(--ibm-blue);"></div><span>Strategic Sourcing: $163.9M — Large volume, competitive RFP, multi-year contracts</span></div>
+          <div class="spend-label-item" style="margin-left:20px;"><div class="spend-label-dot" style="background:var(--teal-50);"></div><span>Tactical Sourcing: $41.2M — Spot buys, catalog optimization, demand management</span></div>
+          <div class="spend-label-item" style="margin-left:20px;"><div class="spend-label-dot" style="background:var(--gray-50);"></div><span>Tail: $4.5M — Sub-threshold, low-value transactions</span></div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 3 -->
+
+    <!-- ===================== SCREEN 4: SAVINGS ASSUMPTIONS ===================== -->
+    <div class="screen" id="screen4">
+      <div class="page-header">
+        <div class="flex-row">
+          <div>
+            <div class="page-title">Step 4: Review Savings Assumptions</div>
+            <div class="page-subtitle">GCL benchmark-derived assumptions · Override individual rows to reflect client-specific intelligence</div>
+          </div>
+          <div class="flex-spacer"></div>
+          <button class="btn btn-primary btn-sm" onclick="recalcModel()">⟳ Recalculate Model</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab(this, 'ssTab')">📊 Strategic Sourcing</div>
+        <div class="tab" onclick="switchTab(this, 'tacticalTab')">🔧 Tactical Sourcing</div>
+        <div class="tab" onclick="switchTab(this, 'benchmarkTab')">📚 Benchmark Library</div>
+      </div>
+
+      <!-- STRATEGIC SOURCING TAB -->
+      <div class="tab-content active" id="ssTab">
+        <div class="flex-row mb-16" style="gap:12px;">
+          <div style="background:var(--ibm-blue-10);border:1px solid var(--ibm-blue-20);border-radius:6px;padding:10px 16px;flex:1;">
+            <div style="font-size:11px;color:var(--ibm-blue);font-weight:600;text-transform:uppercase;">SS Addressable Spend</div>
+            <div style="font-size:22px;font-weight:700;color:var(--ibm-blue);">$163.9M</div>
+          </div>
+          <div style="background:var(--green-10);border:1px solid #B3E6C0;border-radius:6px;padding:10px 16px;flex:1;">
+            <div style="font-size:11px;color:var(--green-50);font-weight:600;text-transform:uppercase;">Projected SS Savings</div>
+            <div style="font-size:22px;font-weight:700;color:var(--green-50);">$28.4M</div>
+          </div>
+          <div style="background:var(--teal-10);border:1px solid #9EF0F0;border-radius:6px;padding:10px 16px;flex:1;">
+            <div style="font-size:11px;color:var(--teal-50);font-weight:600;text-transform:uppercase;">Tactical Savings</div>
+            <div style="font-size:22px;font-weight:700;color:var(--teal-50);">$5.8M</div>
+          </div>
+          <div style="background:var(--gray-10);border:1px solid var(--gray-20);border-radius:6px;padding:10px 16px;flex:1;">
+            <div style="font-size:11px;color:var(--gray-70);font-weight:600;text-transform:uppercase;">Overridden Rows</div>
+            <div style="font-size:22px;font-weight:700;color:var(--gray-100);" id="overrideCount">0</div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;background:var(--gray-10);border-bottom:1px solid var(--gray-20);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:13px;font-weight:600;color:var(--gray-100);">Commodity-Level Assumptions</span>
+            <div class="flex-row">
+              <span style="font-size:12px;color:var(--gray-60);">Click <strong>Override</strong> to edit a row · Click <strong>Restore</strong> to revert to GCL defaults</span>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="assumptionsTable">
+              <thead>
+                <tr>
+                  <th>L1 Category</th>
+                  <th>L3 Commodity</th>
+                  <th class="text-right">Addr %</th>
+                  <th class="text-right">Savings %</th>
+                  <th class="text-right">Mo. to Source</th>
+                  <th class="text-right">Cycle Length</th>
+                  <th>Wave</th>
+                  <th>Override?</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="assump-row-0">
+                  <td>Information Technology</td>
+                  <td>Computers</td>
+                  <td class="text-right"><span class="assump-val">80%</span></td>
+                  <td class="text-right"><span class="assump-val">10%</span></td>
+                  <td class="text-right"><span class="assump-val">6</span></td>
+                  <td class="text-right"><span class="assump-val">24 mo</span></td>
+                  <td><span class="badge badge-blue">Wave 1</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(0)">Override</button></td>
+                </tr>
+                <tr id="assump-row-1">
+                  <td>Information Technology</td>
+                  <td>Mobile Services</td>
+                  <td class="text-right"><span class="assump-val">85%</span></td>
+                  <td class="text-right"><span class="assump-val">18%</span></td>
+                  <td class="text-right"><span class="assump-val">6</span></td>
+                  <td class="text-right"><span class="assump-val">24 mo</span></td>
+                  <td><span class="badge badge-blue">Wave 1</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(1)">Override</button></td>
+                </tr>
+                <tr id="assump-row-2">
+                  <td>Information Technology</td>
+                  <td>Data &amp; Network Services</td>
+                  <td class="text-right"><span class="assump-val">80%</span></td>
+                  <td class="text-right"><span class="assump-val">15%</span></td>
+                  <td class="text-right"><span class="assump-val">9</span></td>
+                  <td class="text-right"><span class="assump-val">36 mo</span></td>
+                  <td><span class="badge badge-teal">Wave 2</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(2)">Override</button></td>
+                </tr>
+                <tr id="assump-row-3">
+                  <td>Fleet</td>
+                  <td>Vehicle &amp; Equipment Acquisition</td>
+                  <td class="text-right"><span class="assump-val">80%</span></td>
+                  <td class="text-right"><span class="assump-val">5%</span></td>
+                  <td class="text-right"><span class="assump-val">1</span></td>
+                  <td class="text-right"><span class="assump-val">12 mo</span></td>
+                  <td><span class="badge badge-blue">Wave 1</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(3)">Override</button></td>
+                </tr>
+                <tr id="assump-row-4">
+                  <td>Fleet</td>
+                  <td>Fuel — Bulk</td>
+                  <td class="text-right"><span class="assump-val">50%</span></td>
+                  <td class="text-right"><span class="assump-val">2%</span></td>
+                  <td class="text-right"><span class="assump-val">3</span></td>
+                  <td class="text-right"><span class="assump-val">36 mo</span></td>
+                  <td><span class="badge badge-orange">Wave 3</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(4)">Override</button></td>
+                </tr>
+                <tr id="assump-row-5">
+                  <td>MRO</td>
+                  <td>Industrial Supplies</td>
+                  <td class="text-right"><span class="assump-val">90%</span></td>
+                  <td class="text-right"><span class="assump-val">10%</span></td>
+                  <td class="text-right"><span class="assump-val">4</span></td>
+                  <td class="text-right"><span class="assump-val">36 mo</span></td>
+                  <td><span class="badge badge-teal">Wave 2</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(5)">Override</button></td>
+                </tr>
+                <tr id="assump-row-6">
+                  <td>Facilities Management</td>
+                  <td>Cleaning &amp; Janitorial</td>
+                  <td class="text-right"><span class="assump-val">70%</span></td>
+                  <td class="text-right"><span class="assump-val">4%</span></td>
+                  <td class="text-right"><span class="assump-val">6</span></td>
+                  <td class="text-right"><span class="assump-val">36 mo</span></td>
+                  <td><span class="badge badge-orange">Wave 3</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(6)">Override</button></td>
+                </tr>
+                <tr id="assump-row-7">
+                  <td>Logistics</td>
+                  <td>3PL Services</td>
+                  <td class="text-right"><span class="assump-val">84%</span></td>
+                  <td class="text-right"><span class="assump-val">8%</span></td>
+                  <td class="text-right"><span class="assump-val">5</span></td>
+                  <td class="text-right"><span class="assump-val">24 mo</span></td>
+                  <td><span class="badge badge-teal">Wave 2</span></td>
+                  <td><span class="override-status">No</span></td>
+                  <td><button class="btn-override" onclick="toggleOverride(7)">Override</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TACTICAL TAB -->
+      <div class="tab-content" id="tacticalTab">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;background:var(--gray-10);border-bottom:1px solid var(--gray-20);">
+            <span style="font-size:13px;font-weight:600;">Tactical Sourcing Assumptions</span>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>L1 Category</th>
+                <th>L3 Commodity</th>
+                <th class="text-right">Tactical Addr %</th>
+                <th class="text-right">Savings %</th>
+                <th class="text-right">Tactical Spend</th>
+                <th class="text-right">Est. Savings</th>
+                <th>Method</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Information Technology</td>
+                <td>IT Peripherals &amp; Accessories</td>
+                <td class="text-right">60%</td>
+                <td class="text-right">8%</td>
+                <td class="text-right">$12.9M</td>
+                <td class="text-right green">$0.62M</td>
+                <td><span class="badge badge-teal">Catalog</span></td>
+              </tr>
+              <tr>
+                <td>MRO</td>
+                <td>General Maintenance Supplies</td>
+                <td class="text-right">70%</td>
+                <td class="text-right">7%</td>
+                <td class="text-right">$13.5M</td>
+                <td class="text-right green">$0.66M</td>
+                <td><span class="badge badge-teal">Demand Mgmt</span></td>
+              </tr>
+              <tr>
+                <td>Corp &amp; Prof Svcs</td>
+                <td>Contingent Labor</td>
+                <td class="text-right">50%</td>
+                <td class="text-right">5%</td>
+                <td class="text-right">$8.0M</td>
+                <td class="text-right green">$0.20M</td>
+                <td><span class="badge badge-blue">Rate Card</span></td>
+              </tr>
+              <tr>
+                <td>Marketing and Comms</td>
+                <td>Digital Media Buying</td>
+                <td class="text-right">55%</td>
+                <td class="text-right">6%</td>
+                <td class="text-right">$4.3M</td>
+                <td class="text-right green">$0.14M</td>
+                <td><span class="badge badge-teal">Catalog</span></td>
+              </tr>
+              <tr>
+                <td>Other</td>
+                <td>Miscellaneous Purchases</td>
+                <td class="text-right">40%</td>
+                <td class="text-right">4%</td>
+                <td class="text-right">$2.5M</td>
+                <td class="text-right green">$0.04M</td>
+                <td><span class="badge badge-gray">Spot</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td colspan="4"><strong>Total Tactical</strong></td>
+                <td class="text-right"><strong>$41.2M</strong></td>
+                <td class="text-right green"><strong>$1.66M</strong></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- BENCHMARK LIBRARY TAB -->
+      <div class="tab-content" id="benchmarkTab">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search categories or commodities..." id="benchmarkSearch" oninput="filterBenchmarks(this.value)">
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div style="padding:12px 16px;background:var(--gray-10);border-bottom:1px solid var(--gray-20);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-size:13px;font-weight:600;">GCL Benchmark Library — Typical Factors</span>
+            <span style="font-size:12px;color:var(--gray-60);">Source: IBM GCL v4.2 · Updated Q3 2026</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" id="benchmarkTable">
+              <thead>
+                <tr>
+                  <th>L1 Category</th>
+                  <th>L2 Category</th>
+                  <th>L3 Commodity</th>
+                  <th class="text-right">NA Typical</th>
+                  <th class="text-right">EU Typical</th>
+                  <th class="text-right">ROW Typical</th>
+                  <th class="text-right">Addr %</th>
+                  <th class="text-right">SS Addr %</th>
+                  <th class="text-right">Cycle</th>
+                  <th class="text-right">Mo. to Source</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarkBody">
+                <tr>
+                  <td>Information Technology</td>
+                  <td>IT Hardware</td>
+                  <td>Computers</td>
+                  <td class="text-right">10%</td>
+                  <td class="text-right">12%</td>
+                  <td class="text-right">8%</td>
+                  <td class="text-right">80%</td>
+                  <td class="text-right">100%</td>
+                  <td class="text-right">24 mo</td>
+                  <td class="text-right">6</td>
+                </tr>
+                <tr>
+                  <td>Information Technology</td>
+                  <td>IT Telecommunications</td>
+                  <td>Mobile Services</td>
+                  <td class="text-right">18%</td>
+                  <td class="text-right">15%</td>
+                  <td class="text-right">12%</td>
+                  <td class="text-right">85%</td>
+                  <td class="text-right">100%</td>
+                  <td class="text-right">24 mo</td>
+                  <td class="text-right">6</td>
+                </tr>
+                <tr>
+                  <td>Fleet</td>
+                  <td>Vehicle Management</td>
+                  <td>Vehicle Acquisition (OEM)</td>
+                  <td class="text-right">5%</td>
+                  <td class="text-right">4%</td>
+                  <td class="text-right">3%</td>
+                  <td class="text-right">80%</td>
+                  <td class="text-right">100%</td>
+                  <td class="text-right">12 mo</td>
+                  <td class="text-right">1</td>
+                </tr>
+                <tr>
+                  <td>MRO</td>
+                  <td>Industrial MRO</td>
+                  <td>Industrial Supplies</td>
+                  <td class="text-right">10%</td>
+                  <td class="text-right">9%</td>
+                  <td class="text-right">7%</td>
+                  <td class="text-right">90%</td>
+                  <td class="text-right">75%</td>
+                  <td class="text-right">36 mo</td>
+                  <td class="text-right">4</td>
+                </tr>
+                <tr>
+                  <td>Facilities Management</td>
+                  <td>Facilities Services</td>
+                  <td>Cleaning &amp; Janitorial</td>
+                  <td class="text-right">4%</td>
+                  <td class="text-right">5%</td>
+                  <td class="text-right">6%</td>
+                  <td class="text-right">70%</td>
+                  <td class="text-right">100%</td>
+                  <td class="text-right">36 mo</td>
+                  <td class="text-right">6</td>
+                </tr>
+                <tr>
+                  <td>Logistics</td>
+                  <td>Distribution Services</td>
+                  <td>3PL Services</td>
+                  <td class="text-right">8%</td>
+                  <td class="text-right">7%</td>
+                  <td class="text-right">6%</td>
+                  <td class="text-right">84%</td>
+                  <td class="text-right">100%</td>
+                  <td class="text-right">24 mo</td>
+                  <td class="text-right">5</td>
+                </tr>
+                <tr>
+                  <td>Corp &amp; Prof Svcs</td>
+                  <td>CPS Consulting</td>
+                  <td>Management Consulting</td>
+                  <td class="text-right">6%</td>
+                  <td class="text-right">7%</td>
+                  <td class="text-right">5%</td>
+                  <td class="text-right">65%</td>
+                  <td class="text-right">50%</td>
+                  <td class="text-right">24 mo</td>
+                  <td class="text-right">8</td>
+                </tr>
+                <tr>
+                  <td>Marketing &amp; Comms</td>
+                  <td>Advertising &amp; Creative</td>
+                  <td>Advertising Agency Fee</td>
+                  <td class="text-right">7%</td>
+                  <td class="text-right">8%</td>
+                  <td class="text-right">5%</td>
+                  <td class="text-right">78%</td>
+                  <td class="text-right">70%</td>
+                  <td class="text-right">36 mo</td>
+                  <td class="text-right">6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 4 -->
+
+    <!-- ===================== SCREEN 5: WAVE PLANNING ===================== -->
+    <div class="screen" id="screen5">
+      <div class="page-header">
+        <div class="page-title">Step 5: Configure Implementation Waves</div>
+        <div class="page-subtitle">Define the sequencing and timing of sourcing initiatives across the contract term</div>
+      </div>
+
+      <!-- WAVE CONFIG CARDS -->
+      <div class="wave-cards">
+        <!-- Wave 1 -->
+        <div class="wave-card wave1">
+          <div class="wave-card-header">
+            <div>
+              <div class="wave-name">Wave 1</div>
+              <div style="font-size:12px;color:var(--gray-60);margin-top:2px;">High-value, quick-win categories</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="toggleWaveEdit(1)">✏ Edit</button>
+          </div>
+          <div class="wave-stats">
+            <div>
+              <div class="wave-stat-label">Start Month</div>
+              <div class="wave-stat-value" id="wave1-start">Month 3</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Categories</div>
+              <div class="wave-stat-value">4 categories</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Addressable Spend</div>
+              <div class="wave-stat-value">$118.6M</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Est. Savings</div>
+              <div class="wave-stat-value" style="color:var(--green-50);">$17.2M</div>
+            </div>
+          </div>
+          <div class="wave-edit-form" id="wave-edit-1">
+            <label>Start Month</label>
+            <input type="number" value="3" min="1" max="36" id="wave1-month-input" onchange="updateWaveStart(1, this.value)">
+            <label>Wave Description</label>
+            <input type="text" value="High-value, quick-win categories">
+            <button class="btn btn-primary btn-sm" onclick="toggleWaveEdit(1)">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- Wave 2 -->
+        <div class="wave-card wave2">
+          <div class="wave-card-header">
+            <div>
+              <div class="wave-name">Wave 2</div>
+              <div style="font-size:12px;color:var(--gray-60);margin-top:2px;">Mid-complexity categories</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="toggleWaveEdit(2)">✏ Edit</button>
+          </div>
+          <div class="wave-stats">
+            <div>
+              <div class="wave-stat-label">Start Month</div>
+              <div class="wave-stat-value" id="wave2-start">Month 8</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Categories</div>
+              <div class="wave-stat-value">3 categories</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Addressable Spend</div>
+              <div class="wave-stat-value">$66.3M</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Est. Savings</div>
+              <div class="wave-stat-value" style="color:var(--green-50);">$10.6M</div>
+            </div>
+          </div>
+          <div class="wave-edit-form" id="wave-edit-2">
+            <label>Start Month</label>
+            <input type="number" value="8" min="1" max="36" id="wave2-month-input" onchange="updateWaveStart(2, this.value)">
+            <label>Wave Description</label>
+            <input type="text" value="Mid-complexity categories">
+            <button class="btn btn-primary btn-sm" onclick="toggleWaveEdit(2)">Save Changes</button>
+          </div>
+        </div>
+
+        <!-- Wave 3 -->
+        <div class="wave-card wave3">
+          <div class="wave-card-header">
+            <div>
+              <div class="wave-name">Wave 3</div>
+              <div style="font-size:12px;color:var(--gray-60);margin-top:2px;">Longer-cycle, complex categories</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="toggleWaveEdit(3)">✏ Edit</button>
+          </div>
+          <div class="wave-stats">
+            <div>
+              <div class="wave-stat-label">Start Month</div>
+              <div class="wave-stat-value" id="wave3-start">Month 13</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Categories</div>
+              <div class="wave-stat-value">2 categories</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Addressable Spend</div>
+              <div class="wave-stat-value">$55.1M</div>
+            </div>
+            <div>
+              <div class="wave-stat-label">Est. Savings</div>
+              <div class="wave-stat-value" style="color:var(--green-50);">$6.4M</div>
+            </div>
+          </div>
+          <div class="wave-edit-form" id="wave-edit-3">
+            <label>Start Month</label>
+            <input type="number" value="13" min="1" max="36" id="wave3-month-input" onchange="updateWaveStart(3, this.value)">
+            <label>Wave Description</label>
+            <input type="text" value="Longer-cycle, complex categories">
+            <button class="btn btn-primary btn-sm" onclick="toggleWaveEdit(3)">Save Changes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GANTT TIMELINE -->
+      <div class="gantt-wrapper">
+        <div class="gantt-header">
+          Implementation Timeline — 36-Month Contract View
+          <span style="font-size:12px;font-weight:400;color:var(--gray-60);margin-left:12px;">Bars show sourcing activity duration from wave start through first cycle</span>
+        </div>
+        <div class="gantt-body">
+          <!-- Quarter labels -->
+          <div class="gantt-quarter-label" style="margin-left:150px;">
+            <div class="gantt-quarter">Q1</div><div class="gantt-quarter">Q2</div><div class="gantt-quarter">Q3</div>
+            <div class="gantt-quarter">Q4</div><div class="gantt-quarter">Q5</div><div class="gantt-quarter">Q6</div>
+            <div class="gantt-quarter">Q7</div><div class="gantt-quarter">Q8</div><div class="gantt-quarter">Q9</div>
+            <div class="gantt-quarter">Q10</div><div class="gantt-quarter">Q11</div><div class="gantt-quarter">Q12</div>
+          </div>
+
+          <!-- Gantt rows: left% = (start-1)/36 * 100, width% = duration/36 * 100 -->
+          <div class="gantt-row">
+            <div class="gantt-row-label">IT — Computers</div>
+            <div class="gantt-track">
+              <!-- Start M3, duration 24mo: left=5.5%, width=66.7% -->
+              <div class="gantt-bar wave1" style="left:5.5%;width:66.7%;">Computers · W1</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">IT — Mobile Services</div>
+            <div class="gantt-track">
+              <div class="gantt-bar wave1" style="left:5.5%;width:66.7%;">Mobile · W1</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">Fleet — Vehicle Acq.</div>
+            <div class="gantt-track">
+              <!-- Start M3, duration 12mo: left=5.5%, width=33.3% -->
+              <div class="gantt-bar wave1" style="left:5.5%;width:33.3%;">Fleet · W1</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">MRO — Industrial Supplies</div>
+            <div class="gantt-track">
+              <!-- Start M8, duration 36mo: left=19.4%, width=80.6% truncated to end -->
+              <div class="gantt-bar wave2" style="left:19.4%;width:77.8%;">MRO · W2</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">Logistics — 3PL</div>
+            <div class="gantt-track">
+              <!-- Start M8, duration 24mo -->
+              <div class="gantt-bar wave2" style="left:19.4%;width:66.7%;">3PL · W2</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">Facilities — Cleaning</div>
+            <div class="gantt-track">
+              <!-- Start M13, duration 36mo -->
+              <div class="gantt-bar wave3" style="left:33.3%;width:66.7%;">Facilities · W3</div>
+            </div>
+          </div>
+          <div class="gantt-row">
+            <div class="gantt-row-label">Fleet — Fuel Bulk</div>
+            <div class="gantt-track">
+              <!-- Start M13, duration 36mo -->
+              <div class="gantt-bar wave3" style="left:33.3%;width:66.7%;">Fuel · W3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WAVE ASSIGNMENT TABLE -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="padding:12px 16px;background:var(--gray-10);border-bottom:1px solid var(--gray-20);">
+          <span style="font-size:13px;font-weight:600;">Category Wave Assignments</span>
+          <span style="font-size:12px;color:var(--gray-60);margin-left:12px;">Change wave assignment using the dropdown — Gantt will update on Save</span>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>L1 Category</th>
+              <th>L3 Commodity</th>
+              <th class="text-right">Addressable Spend</th>
+              <th class="text-right">Savings %</th>
+              <th>Wave Assignment</th>
+              <th>Start Month</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="wave-assign-0">
+              <td>Information Technology</td><td>Computers</td><td class="text-right">$51.6M</td><td class="text-right">10%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(0, this.value)"><option value="1" selected>Wave 1</option><option value="2">Wave 2</option><option value="3">Wave 3</option></select></td>
+              <td><span class="wave-start-label" id="wsl-0">Month 3</span></td>
+            </tr>
+            <tr id="wave-assign-1">
+              <td>Information Technology</td><td>Mobile Services</td><td class="text-right">$19.4M</td><td class="text-right">18%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(1, this.value)"><option value="1" selected>Wave 1</option><option value="2">Wave 2</option><option value="3">Wave 3</option></select></td>
+              <td><span class="wave-start-label" id="wsl-1">Month 3</span></td>
+            </tr>
+            <tr id="wave-assign-2">
+              <td>Fleet</td><td>Vehicle &amp; Equipment Acquisition</td><td class="text-right">$33.9M</td><td class="text-right">5%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(2, this.value)"><option value="1" selected>Wave 1</option><option value="2">Wave 2</option><option value="3">Wave 3</option></select></td>
+              <td><span class="wave-start-label" id="wsl-2">Month 3</span></td>
+            </tr>
+            <tr id="wave-assign-3">
+              <td>MRO</td><td>Industrial Supplies</td><td class="text-right">$20.3M</td><td class="text-right">10%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(3, this.value)"><option value="2" selected>Wave 2</option><option value="1">Wave 1</option><option value="3">Wave 3</option></select></td>
+              <td><span class="wave-start-label" id="wsl-3">Month 8</span></td>
+            </tr>
+            <tr id="wave-assign-4">
+              <td>Logistics</td><td>3PL Services</td><td class="text-right">$12.8M</td><td class="text-right">8%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(4, this.value)"><option value="2" selected>Wave 2</option><option value="1">Wave 1</option><option value="3">Wave 3</option></select></td>
+              <td><span class="wave-start-label" id="wsl-4">Month 8</span></td>
+            </tr>
+            <tr id="wave-assign-5">
+              <td>Facilities Management</td><td>Cleaning &amp; Janitorial</td><td class="text-right">$21.5M</td><td class="text-right">4%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(5, this.value)"><option value="3" selected>Wave 3</option><option value="1">Wave 1</option><option value="2">Wave 2</option></select></td>
+              <td><span class="wave-start-label" id="wsl-5">Month 13</span></td>
+            </tr>
+            <tr id="wave-assign-6">
+              <td>Fleet</td><td>Fuel — Bulk</td><td class="text-right">$5.6M</td><td class="text-right">2%</td>
+              <td><select class="wave-dropdown" onchange="updateWaveAssign(6, this.value)"><option value="3" selected>Wave 3</option><option value="1">Wave 1</option><option value="2">Wave 2</option></select></td>
+              <td><span class="wave-start-label" id="wsl-6">Month 13</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- END SCREEN 5 -->
+
+    <!-- ===================== SCREEN 6: MODEL RESULTS ===================== -->
+    <div class="screen" id="screen6">
+      <div class="page-header">
+        <div class="flex-row">
+          <div>
+            <div class="page-title">Step 6: Model Results</div>
+            <div class="page-subtitle">Projected savings across three scenarios — Typical scenario is the default for client presentations</div>
+          </div>
+          <div class="flex-spacer"></div>
+          <button class="btn btn-ghost btn-sm" onclick="recalcModel()">⟳ Recalculate</button>
+          <button class="btn btn-primary btn-sm">⬇ Export Results</button>
+        </div>
+      </div>
+
+      <!-- SCENARIO SELECTOR -->
+      <div class="flex-row mb-16">
+        <div class="scenario-tabs">
+          <div class="scenario-tab" id="scen-conservative" onclick="setScenario('conservative')">Conservative<div style="font-size:11px;opacity:0.7;">$24.1M total</div></div>
+          <div class="scenario-tab active" id="scen-typical" onclick="setScenario('typical')">Typical ✓<div style="font-size:11px;opacity:0.7;">$34.2M total</div></div>
+          <div class="scenario-tab" id="scen-aggressive" onclick="setScenario('aggressive')">Aggressive<div style="font-size:11px;opacity:0.7;">$48.6M total</div></div>
+        </div>
+        <div class="flex-spacer"></div>
+        <div id="active-scenario-badge" style="background:var(--ibm-blue-10);border:1px solid var(--ibm-blue-20);border-radius:6px;padding:8px 14px;font-size:13px;color:var(--ibm-blue);font-weight:600;">
+          Active: <span id="active-scenario-name">Typical</span> · Total Savings: <span id="scenario-total-savings">$34.2M</span>
+        </div>
+      </div>
+
+      <!-- KPI ROW (scenario-sensitive) -->
+      <div class="stat-cards" style="margin-bottom:20px;">
+        <div class="stat-card green">
+          <div class="stat-label">Total Savings</div>
+          <div class="stat-value green" id="res-total-savings">$34.2M</div>
+          <div class="stat-sub">Across 36-month term</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-label">Year 1 Savings</div>
+          <div class="stat-value blue" id="res-y1">$6.8M</div>
+          <div class="stat-sub">Ramp-up year</div>
+        </div>
+        <div class="stat-card teal">
+          <div class="stat-label">Year 2 Savings</div>
+          <div class="stat-value teal" id="res-y2">$12.4M</div>
+          <div class="stat-sub">Full wave 1 + wave 2</div>
+        </div>
+        <div class="stat-card gray">
+          <div class="stat-label">Year 3 Savings</div>
+          <div class="stat-value" id="res-y3">$15.1M</div>
+          <div class="stat-sub">All waves active</div>
+        </div>
+      </div>
+
+      <!-- BAR CHART + DETAIL TABLE -->
+      <div class="two-col-half">
+        <!-- BAR CHART -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Savings by Year — Bar Chart</div>
+          </div>
+          <div class="bar-chart" id="resultsBarChart">
+            <!-- Y1 -->
+            <div class="bar-col">
+              <div class="bar-amount" id="bar-y1-lbl">$6.8M</div>
+              <div class="bar-stacked" id="bar-y1" style="height:45%;">
+                <div class="bar-seg-teal" style="height:15%;"></div>
+                <div class="bar-seg-blue" style="height:85%;"></div>
+              </div>
+              <div class="bar-label">Year 1</div>
+            </div>
+            <!-- Y2 -->
+            <div class="bar-col">
+              <div class="bar-amount" id="bar-y2-lbl">$12.4M</div>
+              <div class="bar-stacked" id="bar-y2" style="height:82%;">
+                <div class="bar-seg-teal" style="height:20%;"></div>
+                <div class="bar-seg-blue" style="height:80%;"></div>
+              </div>
+              <div class="bar-label">Year 2</div>
+            </div>
+            <!-- Y3 -->
+            <div class="bar-col">
+              <div class="bar-amount" id="bar-y3-lbl">$15.1M</div>
+              <div class="bar-stacked" id="bar-y3" style="height:100%;">
+                <div class="bar-seg-teal" style="height:22%;"></div>
+                <div class="bar-seg-blue" style="height:78%;"></div>
+              </div>
+              <div class="bar-label">Year 3</div>
+            </div>
+            <!-- Total -->
+            <div class="bar-col">
+              <div class="bar-amount" id="bar-total-lbl">$34.2M</div>
+              <div class="bar-stacked" id="bar-total" style="height:100%;opacity:0.4;background:var(--gray-30);border-radius:4px 4px 0 0;">
+              </div>
+              <div class="bar-label">Total</div>
+            </div>
+          </div>
+          <div class="bar-chart-labels">
+            <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--ibm-blue);"></div>Strategic Savings</div>
+            <div class="bar-legend-item"><div class="bar-legend-dot" style="background:var(--teal-50);"></div>Tactical Savings</div>
+          </div>
+        </div>
+
+        <!-- CATEGORY SAVINGS BREAKDOWN -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Savings by Category</div>
+          </div>
+          <div id="categorySavingsChart">
+            <div class="h-bar-row">
+              <div class="h-bar-label">Information Technology</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:85%;background:var(--ibm-blue);">$12.2M</div></div>
+              <div class="h-bar-value">$12.2M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Fleet</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:62%;background:var(--ibm-blue);">$8.9M</div></div>
+              <div class="h-bar-value">$8.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">MRO</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:48%;background:var(--teal-50);">$6.9M</div></div>
+              <div class="h-bar-value">$6.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Facilities Mgmt</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:24%;background:var(--teal-50);">$3.4M</div></div>
+              <div class="h-bar-value">$3.4M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Logistics</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:20%;background:var(--ibm-blue);">$2.9M</div></div>
+              <div class="h-bar-value">$2.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Corp &amp; Prof Svcs</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:0%;background:var(--gray-30);">—</div></div>
+              <div class="h-bar-value" style="color:var(--orange-40);">$0 ⚠</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETAILED BREAKDOWN TABLE -->
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="padding:12px 16px;background:var(--gray-10);border-bottom:1px solid var(--gray-20);">
+          <span style="font-size:13px;font-weight:600;">Detailed Category Breakdown</span>
+          <span style="font-size:12px;color:var(--gray-60);margin-left:12px;">Scenario: <strong id="detail-scenario-label">Typical</strong></span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>L1 Category</th>
+                <th class="text-right">Total Spend</th>
+                <th class="text-right">Addr Spend</th>
+                <th class="text-right">SS Savings</th>
+                <th class="text-right">Tactical Savings</th>
+                <th class="text-right">Total Savings</th>
+                <th class="text-right">% of Spend</th>
+                <th>Wave</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Information Technology</strong></td>
+                <td class="text-right">$78.6M</td>
+                <td class="text-right">$64.5M</td>
+                <td class="text-right green" id="cat-it-ss">$11.6M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0.62M</td>
+                <td class="text-right green" id="cat-it-total">$12.2M</td>
+                <td class="text-right" id="cat-it-pct">15.5%</td>
+                <td><span class="badge badge-blue">W1</span></td>
+              </tr>
+              <tr>
+                <td><strong>Fleet</strong></td>
+                <td class="text-right">$45.2M</td>
+                <td class="text-right">$33.9M</td>
+                <td class="text-right green" id="cat-fleet-ss">$8.9M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0</td>
+                <td class="text-right green" id="cat-fleet-total">$8.9M</td>
+                <td class="text-right" id="cat-fleet-pct">19.7%</td>
+                <td><span class="badge badge-blue">W1</span></td>
+              </tr>
+              <tr>
+                <td><strong>MRO</strong></td>
+                <td class="text-right">$38.4M</td>
+                <td class="text-right">$33.8M</td>
+                <td class="text-right green" id="cat-mro-ss">$6.2M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0.66M</td>
+                <td class="text-right green" id="cat-mro-total">$6.9M</td>
+                <td class="text-right" id="cat-mro-pct">18.0%</td>
+                <td><span class="badge badge-teal">W2</span></td>
+              </tr>
+              <tr>
+                <td><strong>Facilities Management</strong></td>
+                <td class="text-right">$29.8M</td>
+                <td class="text-right">$21.5M</td>
+                <td class="text-right green" id="cat-fac-ss">$3.4M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0</td>
+                <td class="text-right green" id="cat-fac-total">$3.4M</td>
+                <td class="text-right" id="cat-fac-pct">11.4%</td>
+                <td><span class="badge badge-orange">W3</span></td>
+              </tr>
+              <tr>
+                <td><strong>Logistics</strong></td>
+                <td class="text-right">$15.2M</td>
+                <td class="text-right">$12.8M</td>
+                <td class="text-right green" id="cat-log-ss">$2.9M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0</td>
+                <td class="text-right green" id="cat-log-total">$2.9M</td>
+                <td class="text-right" id="cat-log-pct">19.1%</td>
+                <td><span class="badge badge-teal">W2</span></td>
+              </tr>
+              <tr>
+                <td><strong>Marketing &amp; Comms</strong></td>
+                <td class="text-right">$18.4M</td>
+                <td class="text-right">$14.4M</td>
+                <td class="text-right green" id="cat-mkt-ss">$1.3M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0.14M</td>
+                <td class="text-right green" id="cat-mkt-total">$1.4M</td>
+                <td class="text-right" id="cat-mkt-pct">7.6%</td>
+                <td><span class="badge badge-teal">W2</span></td>
+              </tr>
+              <tr>
+                <td><strong>Corp &amp; Prof Svcs</strong></td>
+                <td class="text-right">$24.6M</td>
+                <td class="text-right">$16.0M</td>
+                <td class="text-right" style="color:var(--orange-40);">$0 ⚠</td>
+                <td class="text-right" style="color:var(--teal-50);">$0.20M</td>
+                <td class="text-right" style="color:var(--orange-40);">$0.2M ⚠</td>
+                <td class="text-right" style="color:var(--orange-40);">0.8%</td>
+                <td><span class="badge badge-gray">TBD</span></td>
+              </tr>
+              <tr>
+                <td><strong>Other</strong></td>
+                <td class="text-right">$12.8M</td>
+                <td class="text-right">$8.96M</td>
+                <td class="text-right green">$0.28M</td>
+                <td class="text-right" style="color:var(--teal-50);">$0.04M</td>
+                <td class="text-right green">$0.32M</td>
+                <td class="text-right">2.5%</td>
+                <td><span class="badge badge-orange">W3</span></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="total-row">
+                <td><strong>Total</strong></td>
+                <td class="text-right"><strong>$262.0M</strong></td>
+                <td class="text-right"><strong>$205.9M</strong></td>
+                <td class="text-right green"><strong id="detail-ss-total">$34.6M</strong></td>
+                <td class="text-right" style="color:var(--teal-50);font-weight:600;"><strong>$1.66M</strong></td>
+                <td class="text-right green"><strong id="detail-grand-total">$34.2M</strong></td>
+                <td class="text-right green"><strong id="detail-pct-total">13.1%</strong></td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- EXPLAIN THIS NUMBER - COLLAPSIBLE -->
+      <div style="margin-top:16px;">
+        <div class="collapsible-header" id="explainHeader" onclick="toggleExplain()">
+          <span style="font-size:13px;font-weight:600;">🔍 Explain This Number — Fleet Vehicle Acquisition</span>
+          <span class="collapsible-toggle" id="explainToggle">▼</span>
+        </div>
+        <div class="collapsible-body" id="explainBody">
+          <div style="margin-bottom:12px;font-size:13px;color:var(--gray-70);">
+            Calculation trace for: <strong>Fleet — Vehicle &amp; Equipment Acquisition — OEM</strong>
+          </div>
+          <div class="formula-block">
+<span style="color:var(--green-50);font-weight:700;">$8,900,000 estimated savings over 36 months</span>
+<br><br>
+<span class="formula-arrow">→</span> Annual Spend Input: <span class="formula-highlight">$45,200,000</span> (Fleet, FY2024)
+<span class="formula-arrow">→</span> Addressability: <strong>75%</strong> → <span class="formula-highlight">$33,900,000</span> addressable spend
+<span class="formula-arrow">→</span> SS Addressable: <strong>100%</strong> → <span class="formula-highlight">$33,900,000</span> strategic sourcing scope
+<span class="formula-arrow">→</span> Savings %: <strong>5.0%</strong> (Typical, North America, GCL v4.2) → <span class="formula-highlight">$1,695,000/yr</span> at full run rate
+<span class="formula-arrow">→</span> Tactical Addressable: <strong>0%</strong> (fully strategic category — no catalog opportunity)
+<span class="formula-arrow">→</span> Wave 1 Start: Month 3. Months to source: <strong>1</strong>. Cycle: <strong>12 months</strong>
+<br>
+<span class="formula-arrow">→</span> <strong>Year 1:</strong> Savings begin Month 4. 9 months of realization → <span class="formula-highlight">$1,271,250</span>
+<span class="formula-arrow">→</span> <strong>Year 2:</strong> Full-year run rate → <span class="formula-highlight">$1,695,000</span> (re-sourced at Month 15)
+<span class="formula-arrow">→</span> <strong>Year 3:</strong> Second cycle year → <span class="formula-highlight">$1,695,000</span>
+<br>
+<span style="color:var(--gray-50);">──────────────────────────────────────────</span>
+<span class="formula-arrow">→</span> 36-Month Total: $1,271,250 + $1,695,000 + $1,695,000 = <span class="formula-highlight">$4,661,250 (Vehicle only)</span>
+<br>
+<span class="formula-note">Note: Fuel — Bulk adds $0.22M + $0.22M + $0.22M = $0.66M across 3 years (Wave 3, Month 13 start)</span>
+<span class="formula-note">Fleet category total includes Fuel Bulk and Fleet Mgmt Services for the displayed $8.9M</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 6 -->
+
+    <!-- ===================== SCREEN 7: EXECUTIVE DASHBOARD ===================== -->
+    <div class="screen" id="screen7">
+      <div class="page-header">
+        <div class="flex-row">
+          <div>
+            <div class="page-title">Executive Summary — ACME Corporation</div>
+            <div class="page-subtitle">Prepared by IBM Consulting · Typical Scenario · Oct 12, 2026</div>
+          </div>
+          <div class="flex-spacer"></div>
+          <button class="btn btn-secondary btn-sm">📄 Export to PDF</button>
+          <button class="btn btn-primary btn-sm">📊 Export to Excel</button>
+        </div>
+      </div>
+
+      <!-- ROW 1: KPI TILES -->
+      <div class="kpi-tiles">
+        <div class="kpi-tile">
+          <div class="kpi-tile-label">Addressable Spend</div>
+          <div class="kpi-tile-value blue">$209.6M</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-label">Projected Savings</div>
+          <div class="kpi-tile-value green">$34.2M</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-label">Savings Rate</div>
+          <div class="kpi-tile-value teal">13.1%</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-label">Contract Term</div>
+          <div class="kpi-tile-value">36 mo</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-label">ROI (Savings / Cost)</div>
+          <div class="kpi-tile-value green">17:1</div>
+        </div>
+      </div>
+
+      <!-- ROW 2: TWO CHARTS -->
+      <div class="two-col-half">
+        <!-- LEFT: WATERFALL -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Savings Waterfall — $262M → $34.2M</div>
+          </div>
+          <div style="padding:4px 0;">
+            <div class="waterfall-row">
+              <div class="waterfall-label">Total Spend</div>
+              <div class="waterfall-bar-wrap"><div class="waterfall-bar blue" style="width:100%;">$262.0M</div></div>
+              <div class="waterfall-pct">100%</div>
+            </div>
+            <div class="waterfall-row">
+              <div class="waterfall-label">Addressable</div>
+              <div class="waterfall-bar-wrap"><div class="waterfall-bar light-blue" style="width:80%;">$209.6M</div></div>
+              <div class="waterfall-pct">80.0%</div>
+            </div>
+            <div class="waterfall-row">
+              <div class="waterfall-label">SS Addressable</div>
+              <div class="waterfall-bar-wrap"><div class="waterfall-bar teal" style="width:62.6%;">$163.9M</div></div>
+              <div class="waterfall-pct">62.6%</div>
+            </div>
+            <div class="waterfall-row">
+              <div class="waterfall-label" style="font-weight:600;color:var(--green-50);">Projected Savings</div>
+              <div class="waterfall-bar-wrap"><div class="waterfall-bar green" style="width:13.1%;">$34.2M</div></div>
+              <div class="waterfall-pct" style="color:var(--green-50);font-weight:600;">13.1%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: BY CATEGORY -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Projected Savings by Category</div>
+          </div>
+          <div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Information Technology</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:85%;background:var(--ibm-blue);"></div></div>
+              <div class="h-bar-value">$12.2M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Fleet</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:62%;background:var(--ibm-blue);"></div></div>
+              <div class="h-bar-value">$8.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">MRO</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:48%;background:var(--teal-50);"></div></div>
+              <div class="h-bar-value">$6.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Facilities Management</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:24%;background:var(--teal-50);"></div></div>
+              <div class="h-bar-value">$3.4M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Logistics</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:21%;background:var(--ibm-blue);"></div></div>
+              <div class="h-bar-value">$2.9M</div>
+            </div>
+            <div class="h-bar-row">
+              <div class="h-bar-label">Other Categories</div>
+              <div class="h-bar-track"><div class="h-bar-fill" style="width:13%;background:var(--gray-50);"></div></div>
+              <div class="h-bar-value">$1.9M</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 3: RISK FLAGS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">⚠ Risk Flags &amp; Model Caveats</div>
+          <span class="badge badge-orange">3 items</span>
+        </div>
+        <div>
+          <div class="risk-row">
+            <div class="risk-icon">⚠️</div>
+            <div class="risk-text">
+              <strong>Professional Services</strong> — Low confidence taxonomy mapping (68%). The AI classification engine flagged this category as ambiguous between Management Consulting and IT Professional Services. Savings assumptions may not reflect actual scope. Recommend manual review before client delivery.
+            </div>
+            <div class="risk-sev risk-sev-warn">Medium</div>
+          </div>
+          <div class="risk-row">
+            <div class="risk-icon">⚠️</div>
+            <div class="risk-text">
+              <strong>Travel &amp; Expenses</strong> — Addressability assumption (71%) has not been validated against the client's current travel policy and contract commitments. Actual addressable spend may be lower if corporate card programs or preferred supplier agreements restrict competitive sourcing.
+            </div>
+            <div class="risk-sev risk-sev-warn">Medium</div>
+          </div>
+          <div class="risk-row">
+            <div class="risk-icon">ℹ️</div>
+            <div class="risk-text">
+              <strong>Tactical savings methodology</strong> — Tactical savings have been applied at the same percentage rate as strategic savings for 3 categories (IT Peripherals, MRO General Supplies, Contingent Labor). The GCL benchmark library recommends a dedicated tactical savings factor of 60–75% of the strategic rate. Recommend GCL review before final presentation.
+            </div>
+            <div class="risk-sev risk-sev-info">Info</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROW 4: KEY ASSUMPTIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Key Model Assumptions</div>
+        </div>
+        <div class="assumptions-grid">
+          <div>
+            <div class="assumption-row">
+              <span class="assumption-name">Total In-Scope Spend</span>
+              <span class="assumption-value">$262,000,000</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">Spend Data Vintage</span>
+              <span class="assumption-value">FY2024 Actuals</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">Addressability %</span>
+              <span class="assumption-value">80% (blended)</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">Contract Term</span>
+              <span class="assumption-value">36 months</span>
+            </div>
+          </div>
+          <div>
+            <div class="assumption-row">
+              <span class="assumption-name">Active Scenario</span>
+              <span class="assumption-value">Typical (GCL Benchmarks)</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">Geography</span>
+              <span class="assumption-value">North America (Primary)</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">GCL Version</span>
+              <span class="assumption-value">v4.2 (Q3 2026)</span>
+            </div>
+            <div class="assumption-row">
+              <span class="assumption-name">Manual Overrides</span>
+              <span class="assumption-value" id="exec-override-count">0 rows overridden</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 7 -->
+
+    <!-- ===================== SCREEN 8: AI ASSISTANT ===================== -->
+    <div class="screen" id="screen8">
+      <div class="page-header">
+        <div class="page-title">AI Assistant — DSM Copilot</div>
+        <div class="page-subtitle">Powered by IBM Watsonx · Ask questions about assumptions, calculations, and scenarios</div>
+      </div>
+
+      <div class="chat-layout">
+
+        <!-- CHAT PANEL -->
+        <div class="chat-panel">
+          <div class="chat-panel-header">
+            <div class="chat-ai-avatar">🤖</div>
+            <div>
+              <div class="chat-panel-title">DSM AI Assistant</div>
+              <div class="chat-panel-subtitle">Watsonx · DSM Knowledge Base v2.0</div>
+            </div>
+            <div style="margin-left:auto;width:8px;height:8px;background:#24A148;border-radius:50;border-radius:50%;"></div>
+          </div>
+
+          <div class="chat-messages" id="chatMessages">
+            <!-- Pre-populated conversation -->
+            <div class="chat-msg ai">
+              <div class="chat-bubble">
+                👋 Hello! I'm your DSM AI Assistant. I have full context of the ACME Corporation savings model — including all spend data, GCL assumptions, wave assignments, and scenario results. Ask me anything about the model.
+              </div>
+              <div class="chat-time">09:15 AM — DSM Copilot</div>
+            </div>
+
+            <div class="chat-msg user">
+              <div class="chat-bubble">
+                Why is the Facilities category generating only 4% savings?
+              </div>
+              <div class="chat-time">09:22 AM — Solution Architect</div>
+            </div>
+
+            <div class="chat-msg ai">
+              <div class="chat-bubble">
+                <strong>Facilities Management savings are set at 4% (Typical, North America)</strong> per the GCL benchmark for Cleaning &amp; Janitorial, which reflects the high market consolidation in this category.<br><br>
+                The addressability is 72%, giving $21.5M of the $29.8M spend in scope. The GCL factor also reflects that this is a mature category with limited re-sourcing leverage beyond the first cycle — most service providers operate on thin margins and large incumbents have significant retention advantages.<br><br>
+                <strong>You can override this to the High benchmark (6%)</strong> if the client has not competitively sourced in the last 36 months. Navigate to Screen 4 → Strategic Sourcing and click Override on the Cleaning &amp; Janitorial row.
+              </div>
+              <div class="chat-time">09:22 AM — DSM Copilot</div>
+            </div>
+
+            <div class="chat-msg user">
+              <div class="chat-bubble">
+                What happens if I delay Wave 2 by 3 months?
+              </div>
+              <div class="chat-time">09:31 AM — Solution Architect</div>
+            </div>
+
+            <div class="chat-msg ai">
+              <div class="chat-bubble">
+                <strong>Delaying Wave 2 from Month 8 to Month 11</strong> would have the following impact on the model:<br><br>
+                📉 <strong>Year 1 savings reduced by ~$1.2M</strong> — the 3 months of MRO and Logistics savings that would have started in months 8–10 would not be realized in the first year.<br><br>
+                📊 <strong>Year 2 savings remain largely unchanged</strong> — full-year Wave 2 savings still flow through in Year 2, just starting 3 months later.<br><br>
+                📉 <strong>Total contract savings decrease by ~$0.8M</strong> due to the shorter realization window in Year 3 as the second MRO sourcing cycle would fall partially outside the contract term.<br><br>
+                <strong>New total (Typical scenario): ~$33.4M</strong> vs $34.2M current.<br><br>
+                Click <strong>'Apply Change'</strong> in Screen 5 → Wave Planning to update the model with this timing change.
+              </div>
+              <div class="chat-time">09:31 AM — DSM Copilot</div>
+            </div>
+          </div>
+
+          <!-- QUICK CHIPS -->
+          <div class="chat-chips">
+            <div class="chat-chip" onclick="sendChipMessage('Explain the highest savings category in this model')">Explain highest savings category</div>
+            <div class="chat-chip" onclick="sendChipMessage('Compare Conservative vs Aggressive scenario results')">Compare Conservative vs Aggressive</div>
+            <div class="chat-chip" onclick="sendChipMessage('Flag any unusual or low-confidence assumptions in the model')">Flag unusual assumptions</div>
+          </div>
+
+          <!-- INPUT ROW -->
+          <div class="chat-input-row">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask about assumptions, calculations, or scenarios..." onkeydown="if(event.key==='Enter')sendChatMessage()">
+            <button class="chat-send-btn" onclick="sendChatMessage()">Send ↑</button>
+          </div>
+        </div>
+
+        <!-- CONTEXT PANEL -->
+        <div class="chat-context-panel">
+          <div class="chat-context-header">📋 Current Model Context — Read-Only Reference</div>
+          <div class="chat-context-body">
+
+            <div class="context-section">
+              <div class="context-section-title">Deal Summary</div>
+              <div class="assumption-row"><span class="assumption-name">Client</span><span class="assumption-value">ACME Corporation</span></div>
+              <div class="assumption-row"><span class="assumption-name">Total Spend</span><span class="assumption-value">$262M</span></div>
+              <div class="assumption-row"><span class="assumption-name">Active Scenario</span><span class="assumption-value">Typical</span></div>
+              <div class="assumption-row"><span class="assumption-name">Total Savings</span><span class="assumption-value" style="color:var(--green-50);">$34.2M</span></div>
+              <div class="assumption-row"><span class="assumption-name">Savings Rate</span><span class="assumption-value">13.1%</span></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="context-section">
+              <div class="context-section-title">Year-by-Year Savings</div>
+              <div class="assumption-row"><span class="assumption-name">Year 1</span><span class="assumption-value" style="color:var(--green-50);">$6.8M (2.6%)</span></div>
+              <div class="assumption-row"><span class="assumption-name">Year 2</span><span class="assumption-value" style="color:var(--green-50);">$12.4M (4.7%)</span></div>
+              <div class="assumption-row"><span class="assumption-name">Year 3</span><span class="assumption-value" style="color:var(--green-50);">$15.1M (5.8%)</span></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="context-section">
+              <div class="context-section-title">Top Savings Categories</div>
+              <div class="assumption-row"><span class="assumption-name">Information Technology</span><span class="assumption-value">$12.2M</span></div>
+              <div class="assumption-row"><span class="assumption-name">Fleet</span><span class="assumption-value">$8.9M</span></div>
+              <div class="assumption-row"><span class="assumption-name">MRO</span><span class="assumption-value">$6.9M</span></div>
+              <div class="assumption-row"><span class="assumption-name">Facilities Mgmt</span><span class="assumption-value">$3.4M</span></div>
+              <div class="assumption-row"><span class="assumption-name">Logistics</span><span class="assumption-value">$2.9M</span></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="context-section">
+              <div class="context-section-title">Wave Configuration</div>
+              <div class="assumption-row"><span class="assumption-name">Wave 1 Start</span><span class="assumption-value">Month 3</span></div>
+              <div class="assumption-row"><span class="assumption-name">Wave 2 Start</span><span class="assumption-value">Month 8</span></div>
+              <div class="assumption-row"><span class="assumption-name">Wave 3 Start</span><span class="assumption-value">Month 13</span></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="context-section">
+              <div class="context-section-title">⚠ Active Model Flags</div>
+              <div style="font-size:12px;color:var(--orange-40);padding:6px 0;border-bottom:1px solid var(--gray-20);">
+                ⚠ Professional Services — low confidence (68%)
+              </div>
+              <div style="font-size:12px;color:var(--orange-40);padding:6px 0;border-bottom:1px solid var(--gray-20);">
+                ⚠ Travel — addressability not validated
+              </div>
+              <div style="font-size:12px;color:var(--ibm-blue);padding:6px 0;">
+                ℹ Tactical rate alignment recommended
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="context-section">
+              <div class="context-section-title">Scenario Comparison</div>
+              <div class="assumption-row"><span class="assumption-name">Conservative</span><span class="assumption-value">$24.1M (9.2%)</span></div>
+              <div class="assumption-row"><span class="assumption-name" style="color:var(--ibm-blue);font-weight:600;">Typical ✓</span><span class="assumption-value" style="color:var(--green-50);font-weight:600;">$34.2M (13.1%)</span></div>
+              <div class="assumption-row"><span class="assumption-name">Aggressive</span><span class="assumption-value">$48.6M (18.5%)</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END SCREEN 8 -->
+
+  </main>
+</div>
+<!-- END APP BODY -->
+
+<script>
+// ===================================================================
+// DSM WIREFRAME — VANILLA JAVASCRIPT INTERACTIONS
+// ===================================================================
+
+// -------- SCREEN SWITCHING --------
+const stepNumbers = {
+  screen1: 1, screen2: 2, screen3: 3, screen4: 4,
+  screen5: 5, screen6: 6, screen7: 7, screen8: 8
+};
+
+function showScreen(screenId, navEl) {
+  // Hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  // Remove active from all nav items
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  // Show target screen
+  const screen = document.getElementById(screenId);
+  if (screen) screen.classList.add('active');
+
+  // Activate nav item
+  if (navEl) navEl.classList.add('active');
+
+  // Update progress
+  const step = stepNumbers[screenId] || 1;
+  const pct = Math.round((step / 8) * 100);
+  const fillEl = document.getElementById('progressFill');
+  const pctEl = document.getElementById('progressPct');
+  if (fillEl) fillEl.style.width = pct + '%';
+  if (pctEl) pctEl.textContent = `Step ${step} of 8`;
+
+  // Scroll main content to top
+  document.querySelector('.main-content').scrollTop = 0;
+}
+
+// -------- TAB SWITCHING (within screens) --------
+function switchTab(tabEl, contentId) {
+  // Find sibling tabs
+  const tabGroup = tabEl.closest('.tabs');
+  tabGroup.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+
+  // Find all sibling tab contents (look in parent of parent)
+  const container = tabGroup.parentElement;
+  container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  const target = document.getElementById(contentId);
+  if (target) target.classList.add('active');
+}
+
+// -------- OVERRIDE TOGGLE (Screen 4) --------
+let overrideStates = {}; // row index -> {original values}
+let overrideCount = 0;
+
+// Store default values for each row
+const defaultValues = [
+  ['80%','10%','6','24 mo'],
+  ['85%','18%','6','24 mo'],
+  ['80%','15%','9','36 mo'],
+  ['80%','5%','1','12 mo'],
+  ['50%','2%','3','36 mo'],
+  ['90%','10%','4','36 mo'],
+  ['70%','4%','6','36 mo'],
+  ['84%','8%','5','24 mo'],
+];
+
+function toggleOverride(rowIndex) {
+  const row = document.getElementById('assump-row-' + rowIndex);
+  if (!row) return;
+
+  if (overrideStates[rowIndex]) {
+    // Already overridden — clicking again does nothing (use Restore to revert)
+    return;
+  }
+
+  // Store originals
+  const vals = row.querySelectorAll('.assump-val');
+  overrideStates[rowIndex] = Array.from(vals).map(v => v.textContent);
+
+  // Make editable
+  vals.forEach(cell => {
+    cell.setAttribute('contenteditable', 'true');
+    cell.classList.add('editable-cell');
+    cell.addEventListener('blur', () => checkOverrideChanged(rowIndex));
+  });
+
+  // Update override status column
+  const statusCell = row.querySelector('.override-status');
+  statusCell.innerHTML = '<span class="override-tag">Yes</span><a class="restore-link" onclick="restoreRow(' + rowIndex + ')">Restore</a>';
+
+  // Update button text
+  const btn = row.querySelector('.btn-override');
+  if (btn) btn.textContent = 'Editing';
+
+  overrideCount++;
+  updateOverrideCounter();
+}
+
+function checkOverrideChanged(rowIndex) {
+  // Called when a cell loses focus
+  // Just visual feedback — already editable
+}
+
+function restoreRow(rowIndex) {
+  const row = document.getElementById('assump-row-' + rowIndex);
+  if (!row) return;
+
+  const vals = row.querySelectorAll('.assump-val');
+  const originals = defaultValues[rowIndex];
+
+  vals.forEach((cell, i) => {
+    cell.textContent = originals[i];
+    cell.removeAttribute('contenteditable');
+    cell.classList.remove('editable-cell');
+  });
+
+  const statusCell = row.querySelector('.override-status');
+  statusCell.innerHTML = 'No';
+
+  const btn = row.querySelector('.btn-override');
+  if (btn) btn.textContent = 'Override';
+
+  delete overrideStates[rowIndex];
+  overrideCount = Math.max(0, overrideCount - 1);
+  updateOverrideCounter();
+}
+
+function updateOverrideCounter() {
+  const el = document.getElementById('overrideCount');
+  if (el) el.textContent = overrideCount;
+  const execEl = document.getElementById('exec-override-count');
+  if (execEl) execEl.textContent = overrideCount + ' row' + (overrideCount !== 1 ? 's' : '') + ' overridden';
+}
+
+// -------- SCENARIO SWITCHING (Screen 6) --------
+const scenarioData = {
+  conservative: {
+    name: 'Conservative',
+    total: '$24.1M',
+    y1: '$4.9M',
+    y2: '$8.8M',
+    y3: '$10.5M',
+    y1h: 32, y2h: 58, y3h: 70,
+    ssTotal: '$22.7M',
+    grandTotal: '$24.1M',
+    pctTotal: '9.2%',
+  },
+  typical: {
+    name: 'Typical',
+    total: '$34.2M',
+    y1: '$6.8M',
+    y2: '$12.4M',
+    y3: '$15.1M',
+    y1h: 45, y2h: 82, y3h: 100,
+    ssTotal: '$34.6M',
+    grandTotal: '$34.2M',
+    pctTotal: '13.1%',
+  },
+  aggressive: {
+    name: 'Aggressive',
+    total: '$48.6M',
+    y1: '$9.7M',
+    y2: '$17.6M',
+    y3: '$21.3M',
+    y1h: 45, y2h: 82, y3h: 100,
+    ssTotal: '$47.2M',
+    grandTotal: '$48.6M',
+    pctTotal: '18.5%',
+  }
+};
+
+let currentScenario = 'typical';
+
+function setScenario(scenario) {
+  currentScenario = scenario;
+  const data = scenarioData[scenario];
+
+  // Update scenario tabs
+  ['conservative','typical','aggressive'].forEach(s => {
+    const el = document.getElementById('scen-' + s);
+    if (el) el.classList.toggle('active', s === scenario);
+  });
+
+  // Update active badge
+  const nameEl = document.getElementById('active-scenario-name');
+  const savingsEl = document.getElementById('scenario-total-savings');
+  if (nameEl) nameEl.textContent = data.name;
+  if (savingsEl) savingsEl.textContent = data.total;
+
+  // Update KPI cards
+  document.getElementById('res-total-savings').textContent = data.total;
+  document.getElementById('res-y1').textContent = data.y1;
+  document.getElementById('res-y2').textContent = data.y2;
+  document.getElementById('res-y3').textContent = data.y3;
+
+  // Update bar chart heights
+  const barY1 = document.getElementById('bar-y1');
+  const barY2 = document.getElementById('bar-y2');
+  const barY3 = document.getElementById('bar-y3');
+  if (barY1) barY1.style.height = data.y1h + '%';
+  if (barY2) barY2.style.height = data.y2h + '%';
+  if (barY3) barY3.style.height = data.y3h + '%';
+
+  // Update bar labels
+  document.getElementById('bar-y1-lbl').textContent = data.y1;
+  document.getElementById('bar-y2-lbl').textContent = data.y2;
+  document.getElementById('bar-y3-lbl').textContent = data.y3;
+  document.getElementById('bar-total-lbl').textContent = data.total;
+
+  // Update detail table totals
+  const detailLabel = document.getElementById('detail-scenario-label');
+  if (detailLabel) detailLabel.textContent = data.name;
+  document.getElementById('detail-ss-total').textContent = data.ssTotal;
+  document.getElementById('detail-grand-total').textContent = data.grandTotal;
+  document.getElementById('detail-pct-total').textContent = data.pctTotal;
+
+  // Scale category savings by scenario factor
+  const factors = {conservative: 0.705, typical: 1.0, aggressive: 1.421};
+  const f = factors[scenario];
+
+  const categoryData = [
+    {ssId:'cat-it-ss', totId:'cat-it-total', pctId:'cat-it-pct', baseS:11.6, baseT:12.2, basePct:15.5},
+    {ssId:'cat-fleet-ss', totId:'cat-fleet-total', pctId:'cat-fleet-pct', baseS:8.9, baseT:8.9, basePct:19.7},
+    {ssId:'cat-mro-ss', totId:'cat-mro-total', pctId:'cat-mro-pct', baseS:6.2, baseT:6.9, basePct:18.0},
+    {ssId:'cat-fac-ss', totId:'cat-fac-total', pctId:'cat-fac-pct', baseS:3.4, baseT:3.4, basePct:11.4},
+    {ssId:'cat-log-ss', totId:'cat-log-total', pctId:'cat-log-pct', baseS:2.9, baseT:2.9, basePct:19.1},
+    {ssId:'cat-mkt-ss', totId:'cat-mkt-total', pctId:'cat-mkt-pct', baseS:1.3, baseT:1.4, basePct:7.6},
+  ];
+  categoryData.forEach(cat => {
+    const ssEl = document.getElementById(cat.ssId);
+    const totEl = document.getElementById(cat.totId);
+    const pctEl = document.getElementById(cat.pctId);
+    if (ssEl) ssEl.textContent = '$' + (cat.baseS * f).toFixed(1) + 'M';
+    if (totEl) totEl.textContent = '$' + (cat.baseT * f).toFixed(1) + 'M';
+    if (pctEl) pctEl.textContent = (cat.basePct * f).toFixed(1) + '%';
+  });
+}
+
+// -------- RECALC FEEDBACK --------
+function recalcModel() {
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = '⟳ Calculating...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Up to Date';
+    btn.style.color = 'var(--green-50)';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = '';
+      btn.disabled = false;
+    }, 1500);
+  }, 900);
+}
+
+// -------- COLLAPSIBLE (Screen 6 — Explain) --------
+let explainOpen = false;
+function toggleExplain() {
+  explainOpen = !explainOpen;
+  const body = document.getElementById('explainBody');
+  const toggle = document.getElementById('explainToggle');
+  const header = document.getElementById('explainHeader');
+  if (body) body.classList.toggle('open', explainOpen);
+  if (toggle) toggle.classList.toggle('open', explainOpen);
+  if (header) header.classList.toggle('open', explainOpen);
+}
+
+// -------- WAVE EDIT TOGGLE (Screen 5) --------
+const waveEditStates = {1: false, 2: false, 3: false};
+function toggleWaveEdit(waveNum) {
+  const form = document.getElementById('wave-edit-' + waveNum);
+  if (!form) return;
+  waveEditStates[waveNum] = !waveEditStates[waveNum];
+  form.classList.toggle('show', waveEditStates[waveNum]);
+}
+
+function updateWaveStart(waveNum, val) {
+  const label = document.getElementById('wave' + waveNum + '-start');
+  if (label) label.textContent = 'Month ' + val;
+  // Update wave assignment table labels
+  const waveStartMonths = {1: 3, 2: 8, 3: 13};
+  waveStartMonths[waveNum] = parseInt(val);
+  // Refresh all wsl labels
+  const assigns = [1,1,1,2,2,3,3]; // 0-indexed row -> wave
+  assigns.forEach((wave, i) => {
+    if (wave === waveNum) {
+      const wsl = document.getElementById('wsl-' + i);
+      if (wsl) wsl.textContent = 'Month ' + val;
+    }
+  });
+}
+
+function updateWaveAssign(rowIdx, newWave) {
+  const waveStartMonths = {1: 3, 2: 8, 3: 13};
+  const m = document.getElementById('wave1-month-input');
+  const starts = {
+    1: m ? parseInt(m.value) : 3,
+    2: document.getElementById('wave2-month-input') ? parseInt(document.getElementById('wave2-month-input').value) : 8,
+    3: document.getElementById('wave3-month-input') ? parseInt(document.getElementById('wave3-month-input').value) : 13,
+  };
+  const wsl = document.getElementById('wsl-' + rowIdx);
+  if (wsl) wsl.textContent = 'Month ' + (starts[parseInt(newWave)] || '—');
+}
+
+// -------- BENCHMARK SEARCH FILTER --------
+function filterBenchmarks(query) {
+  const rows = document.querySelectorAll('#benchmarkBody tr');
+  const q = query.toLowerCase();
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+
+// -------- GLOBAL SCENARIO SELECT (Top Nav) --------
+function globalScenarioChange(val) {
+  // Sync with Screen 6 scenario tabs
+  if (['conservative','typical','aggressive'].includes(val)) {
+    setScenario(val);
+  }
+}
+
+// -------- UPLOAD SIMULATION --------
+function simulateUpload() {
+  const zone = document.querySelector('.drop-zone');
+  if (!zone) return;
+  zone.style.background = 'var(--ibm-blue-10)';
+  zone.querySelector('.drop-zone-title').textContent = 'Processing upload...';
+  setTimeout(() => {
+    zone.style.background = 'var(--green-10)';
+    zone.style.borderColor = 'var(--green-50)';
+    zone.querySelector('.drop-zone-title').textContent = '✓ File classified — 247 rows processed';
+    setTimeout(() => {
+      zone.style.background = '';
+      zone.style.borderColor = '';
+      zone.querySelector('.drop-zone-title').innerHTML = 'Drag &amp; drop your spend file or <span class="drop-zone-link">click to browse</span>';
+    }, 2000);
+  }, 1200);
+}
+
+// -------- AI CHAT --------
+const aiResponses = {
+  default: [
+    "Based on the current model configuration for ACME Corporation, the Typical scenario projects $34.2M in savings over 36 months. The largest opportunity is in Information Technology ($12.2M) driven by the 10–18% GCL benchmark rates for Computers and Mobile Services. Would you like me to break down any specific category in more detail?",
+    "That's a great question about the DSM methodology. The savings calculation follows: Addressable Spend × SS Addressability % × GCL Savings % × Timing Factor. The timing factor accounts for the ramp-up period (months to source) and the realization window within the contract term. For Wave 1 categories starting Month 3, Year 1 captures approximately 7–9 months of full savings.",
+    "The Conservative scenario applies the GCL Low benchmark rates, which are typically 60–70% of the Typical rates. This results in $24.1M total savings (9.2% of spend). The Aggressive scenario uses High benchmark rates for all categories and assumes full addressability, producing $48.6M (18.5% of spend). IBM typically presents the Typical scenario as the primary client deliverable with the Conservative as the floor.",
+    "Looking at the wave configuration, Wave 1 (starting Month 3) contains the highest-value categories — IT and Fleet — which together represent $118.6M of addressable spend and $17.2M projected savings. Delaying Wave 1 by even 2 months would reduce Year 1 savings by approximately $1.4M. Wave sequencing is one of the highest-leverage levers in DSM optimization."
+  ],
+  keywords: {
+    'highest': "The highest savings category in this model is <strong>Information Technology at $12.2M</strong>, representing 35.7% of total projected savings. This is driven by two key commodities: Mobile Services (18% savings rate, one of the highest in the GCL) and Computers (10% savings rate). Combined addressable spend for IT is $64.5M with 82% addressability.",
+    'compare': "Scenario comparison for ACME Corporation:<br><br>🔵 <strong>Conservative ($24.1M, 9.2%)</strong> — GCL Low rates, risk-adjusted addressability, longer sourcing timelines<br>✅ <strong>Typical ($34.2M, 13.1%)</strong> — Standard GCL benchmarks, market-validated rates, current wave plan<br>🔴 <strong>Aggressive ($48.6M, 18.5%)</strong> — GCL High rates, full addressability, assumes no incumbency constraints<br><br>IBM typically recommends presenting Typical as the primary scenario with Conservative as a risk-adjusted floor for client commitment.",
+    'flag': "I've identified 3 model flags to review before final delivery:<br><br>⚠️ <strong>Professional Services</strong> — 68% taxonomy confidence. Assumptions may not reflect actual scope. Recommend manual taxonomy review.<br><br>⚠️ <strong>Travel</strong> — Addressability (71%) not validated against active contracts or travel policy. Potential overstatement.<br><br>ℹ️ <strong>Tactical rate methodology</strong> — 3 categories use strategic rates for tactical savings. GCL recommends 60–75% of strategic rate for tactical. Recommend GCL library review.",
+    'wave': "Wave planning analysis: Wave 1 (Month 3) captures the highest-value, lowest-complexity categories and drives the majority of Year 1 savings. Wave 2 (Month 8) adds MRO and Logistics complexity. Wave 3 (Month 13) handles the long-cycle Facilities and Fleet Fuel categories. Optimal wave sequencing follows the IBRS framework: prioritize by addressable spend × savings rate ÷ months-to-source.",
+    'facilities': "Facilities Management generates 4% savings based on GCL North America Typical for Cleaning & Janitorial. This is a mature, consolidated category. Addressability is 72% ($21.5M of $29.8M). The full savings realization of $3.4M comes from a single Wave 3 sourcing event at Month 13. You can override to 6% (High benchmark) if the client has not run a competitive process in 36+ months.",
+    'fleet': "Fleet savings are estimated at $8.9M across two commodities: Vehicle & Equipment Acquisition (5% savings, $33.9M addressable) and Fuel Bulk (2% savings, $5.6M addressable). Fleet is a Wave 1 category with a 12-month cycle. The OEM consolidation opportunity is the primary lever — IBM typically recommends a direct-award or limited-competitive RFP with 3–4 OEM/fleet management vendors.",
+  }
+};
+
+let aiResponseIdx = 0;
+
+function getAIResponse(message) {
+  const lc = message.toLowerCase();
+  // Check keywords first
+  for (const [key, resp] of Object.entries(aiResponses.keywords)) {
+    if (lc.includes(key)) return resp;
+  }
+  // Default rotation
+  const resp = aiResponses.default[aiResponseIdx % aiResponses.default.length];
+  aiResponseIdx++;
+  return resp;
+}
+
+function sendChatMessage() {
+  const input = document.getElementById('chatInput');
+  if (!input || !input.value.trim()) return;
+  const message = input.value.trim();
+  input.value = '';
+  appendChatMessage('user', message);
+  // Typing indicator
+  const typingId = appendTypingIndicator();
+  setTimeout(() => {
+    removeTypingIndicator(typingId);
+    appendChatMessage('ai', getAIResponse(message));
+  }, 800);
+}
+
+function sendChipMessage(msg) {
+  const input = document.getElementById('chatInput');
+  if (input) input.value = msg;
+  sendChatMessage();
+}
+
+function appendChatMessage(role, text) {
+  const container = document.getElementById('chatMessages');
+  if (!container) return;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
+  div.innerHTML = `
+    <div class="chat-bubble">${text}</div>
+    <div class="chat-time">${timeStr} — ${role === 'user' ? 'Solution Architect' : 'DSM Copilot'}</div>
+  `;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+let typingCounter = 0;
+function appendTypingIndicator() {
+  const id = 'typing-' + (++typingCounter);
+  const container = document.getElementById('chatMessages');
+  if (!container) return id;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ai';
+  div.id = id;
+  div.innerHTML = `
+    <div class="chat-bubble" style="padding:12px 16px;">
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+  `;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return id;
+}
+
+function removeTypingIndicator(id) {
+  const el = document.getElementById(id);
+  if (el) el.remove();
+}
+
+// -------- INIT --------
+document.addEventListener('DOMContentLoaded', function() {
+  // Screen 1 is active by default
+  // Initialize any charts that need JS-driven sizing
+  console.log('[DSM Wireframe] Initialized. All 8 screens ready.');
+});
+</script>
+</body>
+</html>
